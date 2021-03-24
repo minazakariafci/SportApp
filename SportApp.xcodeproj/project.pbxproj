@@ -139,6 +139,32 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		04C0CEBB260BAA180062310B /* App Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				04CD4A002608CA9000F8DA47 /* AppDelegate.swift */,
+				04CD4A022608CA9000F8DA47 /* SceneDelegate.swift */,
+			);
+			path = "App Delegate";
+			sourceTree = "<group>";
+		};
+		04C0CEBC260BAA3A0062310B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				04CD4A062608CA9000F8DA47 /* Main.storyboard */,
+				04CD4A0E2608CA9300F8DA47 /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		04C0CEBD260BAA510062310B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				04CD4A0C2608CA9300F8DA47 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		04CD49F42608CA9000F8DA47 = {
 			isa = PBXGroup;
 			children = (
@@ -162,16 +188,14 @@
 		04CD49FF2608CA9000F8DA47 /* SportApp */ = {
 			isa = PBXGroup;
 			children = (
+				04C0CEBD260BAA510062310B /* Resources */,
+				04C0CEBC260BAA3A0062310B /* Views */,
+				04C0CEBB260BAA180062310B /* App Delegate */,
 				0465DF44260B50CE00BC58BE /* Extensions */,
 				045BCB14260A07B400047683 /* Cells */,
-				04CD4A002608CA9000F8DA47 /* AppDelegate.swift */,
-				04CD4A022608CA9000F8DA47 /* SceneDelegate.swift */,
-				04CD4A062608CA9000F8DA47 /* Main.storyboard */,
-				04CD4A0C2608CA9300F8DA47 /* Assets.xcassets */,
-				04CD4A0E2608CA9300F8DA47 /* LaunchScreen.storyboard */,
+				0465DF5A260B5BB700BC58BE /* Controllers */,
 				04CD4A112608CA9300F8DA47 /* Info.plist */,
 				04CD4A092608CA9000F8DA47 /* SportApp.xcdatamodeld */,
-				0465DF5A260B5BB700BC58BE /* Controllers */,
 			);
 			path = SportApp;
 			sourceTree = "<group>";

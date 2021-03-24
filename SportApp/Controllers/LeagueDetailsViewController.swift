@@ -31,8 +31,8 @@ class LeagueDetailsViewController: UIViewController {
      */
     
 }
-extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionViewDataSource,
-                                        UICollectionViewDelegateFlowLayout{
+extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch collectionView.tag {
         case 0:
