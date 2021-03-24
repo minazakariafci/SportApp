@@ -47,30 +47,40 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="2021-03-08 At 15:00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="utE-UI-bRO">
-                        <rect key="frame" x="4" y="126" width="345" height="28"/>
+                        <rect key="frame" x="4" y="126" width="345" height="32"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3oV-PE-sN9">
+                        <rect key="frame" x="0.0" y="166" width="353" height="4"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="4" id="8Gi-b9-ppw"/>
+                        </constraints>
+                    </view>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="utE-UI-bRO" secondAttribute="bottom" constant="20" id="3Oq-7s-aH0"/>
+                <constraint firstAttribute="trailing" secondItem="3oV-PE-sN9" secondAttribute="trailing" id="55H-Kp-mZl"/>
                 <constraint firstAttribute="trailing" secondItem="3nf-ps-5yT" secondAttribute="trailing" constant="4" id="7FM-wt-ghv"/>
                 <constraint firstAttribute="trailing" secondItem="qSW-GO-FaP" secondAttribute="trailing" constant="4" id="7eS-yW-zSt"/>
                 <constraint firstItem="LK9-N3-de1" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="16" id="7mo-vB-5ja"/>
+                <constraint firstItem="3oV-PE-sN9" firstAttribute="top" secondItem="utE-UI-bRO" secondAttribute="bottom" constant="8" id="MsI-pq-OZx"/>
                 <constraint firstItem="yzh-YE-i9H" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="4" id="Nfx-nf-tEE"/>
                 <constraint firstItem="LK9-N3-de1" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="4" id="OuI-ad-htU"/>
                 <constraint firstItem="qSW-GO-FaP" firstAttribute="top" secondItem="xeE-8L-HiX" secondAttribute="bottom" constant="16" id="PEj-w6-a5Y"/>
                 <constraint firstItem="utE-UI-bRO" firstAttribute="top" secondItem="yzh-YE-i9H" secondAttribute="bottom" constant="20" id="S24-hw-yjK"/>
                 <constraint firstItem="xeE-8L-HiX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="12" id="Wm5-fr-dA9"/>
+                <constraint firstItem="3oV-PE-sN9" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Xmv-wD-Stf"/>
                 <constraint firstAttribute="trailing" secondItem="xeE-8L-HiX" secondAttribute="trailing" constant="12" id="doH-eW-hUo"/>
                 <constraint firstItem="yzh-YE-i9H" firstAttribute="top" secondItem="xeE-8L-HiX" secondAttribute="bottom" constant="16" id="eZ4-aR-bxa"/>
                 <constraint firstItem="xeE-8L-HiX" firstAttribute="top" secondItem="LK9-N3-de1" secondAttribute="bottom" constant="12" id="hvW-bF-BOC"/>
                 <constraint firstItem="utE-UI-bRO" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="4" id="iUW-pz-jyO"/>
                 <constraint firstItem="3nf-ps-5yT" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="16" id="jQ3-W9-930"/>
                 <constraint firstItem="qSW-GO-FaP" firstAttribute="leading" secondItem="yzh-YE-i9H" secondAttribute="trailing" constant="12" id="nuR-wB-VWi"/>
+                <constraint firstAttribute="bottom" secondItem="3oV-PE-sN9" secondAttribute="bottom" constant="4" id="uw3-cV-HuX"/>
                 <constraint firstAttribute="trailing" secondItem="utE-UI-bRO" secondAttribute="trailing" constant="4" id="xSd-D0-VUq"/>
                 <constraint firstItem="3nf-ps-5yT" firstAttribute="leading" secondItem="LK9-N3-de1" secondAttribute="trailing" constant="12" id="zQo-3n-QhH"/>
             </constraints>
