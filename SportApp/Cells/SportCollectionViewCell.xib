@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SportCollectionViewCell" id="gTV-IL-0wX" customClass="SportCollectionViewCell" customModule="SportApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="242" height="125"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="242" height="125"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="football" translatesAutoresizingMaskIntoConstraints="NO" id="jbt-28-php">
+                        <rect key="frame" x="0.0" y="0.0" width="242" height="88.5"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="football" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaF-NF-0he">
+                        <rect key="frame" x="8" y="92.5" width="222" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="jbt-28-php" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="6rN-b3-jgY"/>
+                <constraint firstAttribute="trailing" secondItem="jbt-28-php" secondAttribute="trailing" id="6ul-qd-66T"/>
+                <constraint firstItem="CaF-NF-0he" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="9LB-9b-Uf4"/>
+                <constraint firstAttribute="bottom" secondItem="CaF-NF-0he" secondAttribute="bottom" constant="12" id="DGG-mZ-9cI"/>
+                <constraint firstItem="CaF-NF-0he" firstAttribute="top" secondItem="jbt-28-php" secondAttribute="bottom" constant="4" id="OaG-Yq-CfH"/>
+                <constraint firstItem="jbt-28-php" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="mNg-Pm-4E5"/>
+                <constraint firstAttribute="trailing" secondItem="CaF-NF-0he" secondAttribute="trailing" constant="12" id="xrK-ec-XD7"/>
+            </constraints>
+            <size key="customSize" width="242" height="125"/>
+            <connections>
+                <outlet property="nameLabel" destination="CaF-NF-0he" id="RBM-ix-MHA"/>
+                <outlet property="sportImageView" destination="jbt-28-php" id="0xG-RK-39L"/>
+            </connections>
+            <point key="canvasLocation" x="-44.927536231884062" y="102.79017857142857"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="football" width="1157" height="1157"/>
+    </resources>
+</document>
