@@ -10,6 +10,8 @@ import UIKit
 class SportsViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
+    let sportsNameUrl = "https://www.thesportsdb.com/api/v1/json/1/all_sports.php"
+    var sportsArr = [Sports]()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.register(UINib(nibName: "SportCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "SportCollectionViewCell")
@@ -26,8 +28,26 @@ class SportsViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    override func viewWillAppear(_ animated: Bool) {
+        DispatchQueue.global(qos: .background).async {
+            APIClient.instance.getData(url: self.sportsNameUrl ) { (sport: SportModel?, error) in
+                if let error = error {
+                    print(error)
+                }else{
+                    guard let datasports = sport else { return  }
+                    self.sportsArr = (datasports.sports)!
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                }
+            }
+        }
+    }
+
 
 }
+
+
 extension SportsViewController : UICollectionViewDelegate , UICollectionViewDataSource,
     UICollectionViewDelegateFlowLayout{
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -42,11 +62,12 @@ extension SportsViewController : UICollectionViewDelegate , UICollectionViewData
         }
    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 15
+        return sportsArr.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SportCollectionViewCell", for: indexPath) as! SportCollectionViewCell
+        cell.nameLabel.text = sportsArr[indexPath.row].strSport
        
         return cell
     }
