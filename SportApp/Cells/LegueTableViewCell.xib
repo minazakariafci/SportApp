@@ -31,7 +31,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b3W-5h-vnI">
-                        <rect key="frame" x="280.5" y="40" width="31.5" height="19"/>
+                        <rect key="frame" x="291" y="40" width="21" height="19"/>
                         <color key="tintColor" red="0.099177904430000005" green="0.1210411862" blue="0.14747992160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <state key="normal" image="arrowshape.turn.up.right" catalog="system"/>
                     </button>
@@ -39,7 +39,6 @@
                 <constraints>
                     <constraint firstItem="b3W-5h-vnI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="40" id="9Db-un-4Ky"/>
                     <constraint firstAttribute="bottom" secondItem="ccc-Y5-Z1U" secondAttribute="bottom" constant="16" id="EvZ-Le-pX3"/>
-                    <constraint firstItem="b3W-5h-vnI" firstAttribute="leading" secondItem="Nr1-M3-5ge" secondAttribute="trailing" constant="120" id="J6O-sF-2nb"/>
                     <constraint firstItem="Nr1-M3-5ge" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="44" id="JU3-KX-kgw"/>
                     <constraint firstAttribute="trailing" secondItem="b3W-5h-vnI" secondAttribute="trailing" constant="8" id="K39-WY-mOn"/>
                     <constraint firstItem="Nr1-M3-5ge" firstAttribute="leading" secondItem="ccc-Y5-Z1U" secondAttribute="trailing" constant="24" id="Rsq-cr-9bd"/>
