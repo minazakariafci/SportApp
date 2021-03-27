@@ -1,7 +1,7 @@
 
 
 import Foundation
-struct Sports : Codable {
+struct SportDetailsModel : Codable {
 	let idSport : String?
 	let strSport : String?
 	let strFormat : String?
@@ -30,17 +30,4 @@ struct Sports : Codable {
 	}
 
 }
-struct SportModel : Codable {
-    let sports : [Sports]?
 
-    enum CodingKeys: String, CodingKey {
-
-        case sports = "sports"
-    }
-
-    init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        sports = try values.decodeIfPresent([Sports].self, forKey: .sports)
-    }
-
-}

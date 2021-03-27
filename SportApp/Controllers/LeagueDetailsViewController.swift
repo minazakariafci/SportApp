@@ -12,24 +12,36 @@ class LeagueDetailsViewController: UIViewController {
     @IBOutlet weak var teamCollectionView: UICollectionView!
     @IBOutlet weak var resultCollectionView: UICollectionView!
     @IBOutlet weak var eventCollectionView: UICollectionView!
+    var legueId : String?
+    var eventDetails =  [Events]()
+    let eventDetailsUrl = "https://www.thesportsdb.com/api/v1/json/1/eventspastleague.php?id="
     override func viewDidLoad() {
         super.viewDidLoad()
         self.eventCollectionView.register(UINib(nibName: "EventCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "EventCollectionViewCell")
         self.resultCollectionView.register(UINib(nibName: "ResultCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "ResultCollectionViewCell")
         self.teamCollectionView.register(UINib(nibName: "TeamCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "TeamCollectionViewCell")
+        self.serviceCall()
+        self.eventCollectionView.reloadData()
+        self.resultCollectionView.reloadData()
+        self.teamCollectionView.reloadData()
     }
     
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+    func serviceCall(){
+        APIClient.instance.getData(url: self.eventDetailsUrl,id : legueId!) { (sport: EventModel?, error) in
+            if let error = error {
+                print(error)
+            }else{
+                guard let datasports = sport else { return  }
+                self.eventDetails = (datasports.events)!
+                DispatchQueue.main.async {
+                    self.eventCollectionView.reloadData()
+                    self.resultCollectionView.reloadData()
+                    self.teamCollectionView.reloadData()
+                }
+            }
+            
+        }
+    }
 }
 extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     
@@ -55,9 +67,9 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView.tag {
         case 0:
-            return 10
+            return eventDetails.count
         case 1:
-            return 7
+            return eventDetails.count
         case 2:
             return 15
             
@@ -71,10 +83,17 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
         
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCollectionViewCell", for: indexPath) as! EventCollectionViewCell
+            cell.eventLabel.text = eventDetails[indexPath.row].strEvent
+            cell.dateLabel.text = eventDetails[indexPath.row].dateEvent! + " AT " + eventDetails[indexPath.row].strTime!
             return cell
             
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ResultCollectionViewCell", for: indexPath) as! ResultCollectionViewCell
+            cell.homeTeamLabel.text = eventDetails[indexPath.row].strHomeTeam
+            cell.homeScoreLabel.text = eventDetails[indexPath.row].intHomeScore
+            cell.awayTeamLabel.text = eventDetails[indexPath.row].strAwayTeam
+            cell.awayScoreLabel.text = eventDetails[indexPath.row].intAwayScore
+            cell.dateLabel.text = eventDetails[indexPath.row].dateEvent! + " AT " + eventDetails[indexPath.row].strTime!
             return cell
             
         case 2:

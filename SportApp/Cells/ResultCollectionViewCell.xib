@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Liverpool" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LK9-N3-de1">
-                        <rect key="frame" x="4" y="16" width="322.5" height="20.5"/>
+                        <rect key="frame" x="4" y="16" width="70" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -35,7 +35,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Alahy" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yzh-YE-i9H">
-                        <rect key="frame" x="4" y="85.5" width="322.5" height="20.5"/>
+                        <rect key="frame" x="4" y="85.5" width="42" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -79,10 +79,8 @@
                 <constraint firstItem="xeE-8L-HiX" firstAttribute="top" secondItem="LK9-N3-de1" secondAttribute="bottom" constant="12" id="hvW-bF-BOC"/>
                 <constraint firstItem="utE-UI-bRO" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="4" id="iUW-pz-jyO"/>
                 <constraint firstItem="3nf-ps-5yT" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="16" id="jQ3-W9-930"/>
-                <constraint firstItem="qSW-GO-FaP" firstAttribute="leading" secondItem="yzh-YE-i9H" secondAttribute="trailing" constant="12" id="nuR-wB-VWi"/>
                 <constraint firstAttribute="bottom" secondItem="3oV-PE-sN9" secondAttribute="bottom" constant="4" id="uw3-cV-HuX"/>
                 <constraint firstAttribute="trailing" secondItem="utE-UI-bRO" secondAttribute="trailing" constant="4" id="xSd-D0-VUq"/>
-                <constraint firstItem="3nf-ps-5yT" firstAttribute="leading" secondItem="LK9-N3-de1" secondAttribute="trailing" constant="12" id="zQo-3n-QhH"/>
             </constraints>
             <size key="customSize" width="353" height="174"/>
             <connections>
