@@ -14,7 +14,8 @@ class LeagueDetailsViewController: UIViewController {
     @IBOutlet weak var eventCollectionView: UICollectionView!
     var legueId : String?
     var eventDetails =  [Events]()
-    let eventDetailsUrl = "https://www.thesportsdb.com/api/v1/json/1/eventspastleague.php?id="
+    var url : URLs = .eventDetailsUrl
+    //let eventDetailsUrl = "https://www.thesportsdb.com/api/v1/json/1/eventspastleague.php?id="
     override func viewDidLoad() {
         super.viewDidLoad()
         self.eventCollectionView.register(UINib(nibName: "EventCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "EventCollectionViewCell")
@@ -27,7 +28,7 @@ class LeagueDetailsViewController: UIViewController {
     }
     
     func serviceCall(){
-        APIClient.instance.getData(url: self.eventDetailsUrl,id : legueId!) { (sport: EventModel?, error) in
+        APIClient.instance.getData(url: self.url.rawValue ,id : legueId!) { (sport: EventModel?, error) in
             if let error = error {
                 print(error)
             }else{

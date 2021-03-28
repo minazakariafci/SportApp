@@ -10,7 +10,8 @@ import UIKit
 class SportsViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
-    let sportsNameUrl = "https://www.thesportsdb.com/api/v1/json/1/all_sports.php"
+  //  let sportsNameUrl = "https://www.thesportsdb.com/api/v1/json/1/all_sports.php"
+    let sportsNameUrl : URLs = .sportsNameUrl
     var sportsArr = [SportDetailsModel]()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +20,7 @@ class SportsViewController: UIViewController {
     }
     
     func serviceCall(){
-        APIClient.instance.getData(url: self.sportsNameUrl ) { (sport: SportModel?, error) in
+        APIClient.instance.getData(url: self.sportsNameUrl.rawValue ) { (sport: SportModel?, error) in
             if let error = error {
                 print(error)
             }else{
