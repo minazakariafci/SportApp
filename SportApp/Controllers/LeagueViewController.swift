@@ -34,8 +34,9 @@ class LeagueViewController: UIViewController {
                         print(self.dataLegueDetails.count)
                         print(self.badgesImages?.count)
                     }
+                    self.dispatchGroup.leave()
                 }
-                self.dispatchGroup.leave()
+               // self.dispatchGroup.leave()
             
             }
             self.dispatchGroup.notify(queue: .main) {
