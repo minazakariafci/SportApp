@@ -11,31 +11,51 @@ class LeagueViewController: UIViewController {
     var sportName : String?
     
     @IBOutlet weak var tableView: UITableView!
-    let legueNameUrl = "https://www.thesportsdb.com/api/v1/json/1/all_leagues.php"
-    let lequeDetailsUrl = "https://www.thesportsdb.com/api/v1/json/1/lookupleague.php?id="
+   // let legueNameUrl = "https://www.thesportsdb.com/api/v1/json/1/all_leagues.php"
+    let legueNameurl : URLs = .legueNameUrl
+    let lequeDetailsUrl :URLs = .lequeDetailsUrl //"https://www.thesportsdb.com/api/v1/json/1/lookupleague.php?id="
     var data = [LegueDetailsModel](){
         didSet{
             for  i in (0..<self.data.count){
                 self.dispatchGroup.enter()
-                APIClient.instance.getData(url: self.lequeDetailsUrl,id : self.data[i].idLeague!) { (sport: legueIDModel?, error) in
+                APIClient.instance.getData(url: self.lequeDetailsUrl.rawValue,id : self.data[i].idLeague!) { (sport: legueIDModel?, error) in
                     print(sport!)
                     if error != nil {
                         print(error!)
                     }else{
                         guard let LequeDetailsFareed = sport else { return  }
+                        
                         self.dataLegueDetails .append(LequeDetailsFareed.leagues![0])
+                        
                         //                            let legues = self.dataLegueDetails[i]
                         //                            self.YoutubeChannels.append(legues[i].strYoutube!)
                         self.badgesImages?.append(self.dataLegueDetails[i].strBadge!)
-                        self.tableView.reloadData()
+                        //self.tableView.reloadData()
                         print(self.dataLegueDetails.count)
                         print(self.badgesImages?.count)
                     }
                 }
                 self.dispatchGroup.leave()
+            
             }
+            self.dispatchGroup.notify(queue: .main) {
+                self.sortData()
+            }
+          
+            
+
         }
     }
+    func sortData() {
+        dataLegueDetails.sort(by: {(id1, id2) -> Bool in
+            if let idleague1 = id1.idLeague, let idleague2 = id2.idLeague {
+                return idleague1 < idleague2
+            }
+            return false
+        })
+        self.tableView.reloadData()
+    }
+    
     var dataLegueDetails = [LeaguesDetailsIDModel]()
     var YoutubeChannels : [String] = []
     var badgesImages : [String]?
@@ -47,11 +67,11 @@ class LeagueViewController: UIViewController {
         super.viewDidLoad()
         self.tableView.register(UINib(nibName: "LegueTableViewCell", bundle: .main), forCellReuseIdentifier: "LegueTableViewCell")
         self.serviceCall()
-        self.tableView.reloadData()
+       // self.tableView.reloadData()
     }
     
     func serviceCall(){
-        APIClient.instance.getData(url: self.legueNameUrl) { (sport: LegueModel?, error) in
+        APIClient.instance.getData(url: self.legueNameurl.rawValue) { (sport: LegueModel?, error) in
             if let error = error {
                 print(error)
             }else{
@@ -74,9 +94,10 @@ extension LeagueViewController :UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LegueTableViewCell", for: indexPath) as! LegueTableViewCell
-        cell.nameLabel.text = data[indexPath.row].strLeague
         if dataLegueDetails.count>indexPath.row{
+            cell.nameLabel.text = dataLegueDetails[indexPath.row].strLeague
             cell.legueImageView.imageUrl = dataLegueDetails[indexPath.row].strBadge!
+            
         }
         return cell
     }
