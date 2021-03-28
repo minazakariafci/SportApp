@@ -13,6 +13,7 @@ class LeagueDetailsViewController: UIViewController {
     @IBOutlet weak var resultCollectionView: UICollectionView!
     @IBOutlet weak var eventCollectionView: UICollectionView!
     var legueId : String?
+    var legueIDS = [String]()
     var teamDetails = [Teams]()
     var eventDetails =  [Events](){
         didSet{
@@ -68,6 +69,7 @@ class LeagueDetailsViewController: UIViewController {
         let mangedContext = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "LegueCoreData", in: mangedContext)
         let legueCoreData = NSManagedObject(entity: entity!, insertInto: mangedContext)
+        
         legueCoreData.setValue(legueId, forKey: "iD")
         do {
             try mangedContext.save()
@@ -76,6 +78,7 @@ class LeagueDetailsViewController: UIViewController {
         } catch let error as NSError {
             print(error)
         }
+        appDelegate.saveContext()
     }
     func DeleteFavouriteLegue(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
