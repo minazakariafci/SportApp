@@ -11,7 +11,7 @@ class SportsViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
   //  let sportsNameUrl = "https://www.thesportsdb.com/api/v1/json/1/all_sports.php"
-    let sportsNameUrl : URLs = .sportsNameUrl
+    let sportsNameUrl : URLS = .sportsNameUrl
     var sportsArr = [SportDetailsModel]()
     override func viewDidLoad() {
         super.viewDidLoad()

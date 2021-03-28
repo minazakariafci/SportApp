@@ -12,8 +12,8 @@ class LeagueViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
    // let legueNameUrl = "https://www.thesportsdb.com/api/v1/json/1/all_leagues.php"
-    let legueNameurl : URLs = .legueNameUrl
-    let lequeDetailsUrl :URLs = .lequeDetailsUrl //"https://www.thesportsdb.com/api/v1/json/1/lookupleague.php?id="
+    let legueNameurl : URLS = .legueNameUrl
+    let lequeDetailsUrl :URLS = .lequeDetailsUrl //"https://www.thesportsdb.com/api/v1/json/1/lookupleague.php?id="
     var data = [LegueDetailsModel](){
         didSet{
             for  i in (0..<self.data.count){
@@ -98,10 +98,18 @@ extension LeagueViewController :UITableViewDelegate,UITableViewDataSource{
         if dataLegueDetails.count>indexPath.row{
             cell.nameLabel.text = dataLegueDetails[indexPath.row].strLeague
             cell.legueImageView.imageUrl = dataLegueDetails[indexPath.row].strBadge!
-            
+            cell.youtubeButton.addTarget(self, action: #selector(oneTapped(_:)), for: .touchUpInside)
+            cell.youtubeButton.tag = indexPath.row
         }
         return cell
     }
+    @objc func oneTapped(_ sender: UIButton) {
+            let newViewController =  self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
+        var index = sender.tag
+        newViewController.youtubeChannels = dataLegueDetails[index].strYoutube
+            self.navigationController?.pushViewController(newViewController, animated: true)
+            
+        }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "seque" {
             if let indexPath = self.tableView.indexPathForSelectedRow {

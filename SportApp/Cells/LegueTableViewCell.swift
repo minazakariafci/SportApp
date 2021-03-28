@@ -9,6 +9,7 @@ import UIKit
 
 class LegueTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var youtubeButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var legueImageView: UIImageView!
     override func awakeFromNib() {

@@ -51,6 +51,7 @@
             <connections>
                 <outlet property="legueImageView" destination="ccc-Y5-Z1U" id="uT6-LG-edY"/>
                 <outlet property="nameLabel" destination="Nr1-M3-5ge" id="xWp-BI-Y6h"/>
+                <outlet property="youtubeButton" destination="b3W-5h-vnI" id="Xzn-au-Jkx"/>
             </connections>
             <point key="canvasLocation" x="140.57971014492756" y="104.12946428571428"/>
         </tableViewCell>

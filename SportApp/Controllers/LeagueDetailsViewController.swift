@@ -6,27 +6,90 @@
 //
 
 import UIKit
-
+import CoreData
 class LeagueDetailsViewController: UIViewController {
     
     @IBOutlet weak var teamCollectionView: UICollectionView!
     @IBOutlet weak var resultCollectionView: UICollectionView!
     @IBOutlet weak var eventCollectionView: UICollectionView!
     var legueId : String?
-    var eventDetails =  [Events]()
-    var url : URLs = .eventDetailsUrl
+    var teamDetails = [Teams]()
+    var eventDetails =  [Events](){
+        didSet{
+            APIClient.instance.getData(url: self.teamDetailsUrl.rawValue, id : legueId! ) { (sport: TeamModel?, error) in
+                if let error = error {
+                    print(error)
+                }else{
+                    guard let datasports = sport else { return  }
+                    self.teamDetails = (datasports.teams)!
+                    DispatchQueue.main.async {
+                        self.teamCollectionView.reloadData()
+                    }
+                }
+                
+            }
+        }
+    }
+    var teamDetailsUrl : URLS = .teamDeatilsUrl
+    var url : URLS = .eventDetailsUrl
     //let eventDetailsUrl = "https://www.thesportsdb.com/api/v1/json/1/eventspastleague.php?id="
+    var favouriteButton: UIBarButtonItem{
+        let filterButton = UIBarButtonItem(image: UIImage(named: "heart-2"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(favourite))
+        return filterButton
+        
+    }
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         self.eventCollectionView.register(UINib(nibName: "EventCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "EventCollectionViewCell")
         self.resultCollectionView.register(UINib(nibName: "ResultCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "ResultCollectionViewCell")
         self.teamCollectionView.register(UINib(nibName: "TeamCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "TeamCollectionViewCell")
+       
+        self.navigationItem.rightBarButtonItem = self.favouriteButton
         self.serviceCall()
         self.eventCollectionView.reloadData()
         self.resultCollectionView.reloadData()
         self.teamCollectionView.reloadData()
     }
-    
+    @objc private func favourite(){
+        if let item = self.navigationItem.rightBarButtonItem{
+            if item.image == UIImage(named: "heart-2"){
+                item.image = UIImage(named: "heart-2-1")
+                self.SaveFavouriteLegue()
+            }
+            else if item.image == UIImage(named: "heart-2-1"){
+             item.image = UIImage(named: "heart-2")
+                self.DeleteFavouriteLegue()
+            }
+        }
+    }
+    func SaveFavouriteLegue(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let mangedContext = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "LegueCoreData", in: mangedContext)
+        let legueCoreData = NSManagedObject(entity: entity!, insertInto: mangedContext)
+        legueCoreData.setValue(legueId, forKey: "iD")
+        do {
+            try mangedContext.save()
+            print(legueCoreData)
+            print("Done")
+        } catch let error as NSError {
+            print(error)
+        }
+    }
+    func DeleteFavouriteLegue(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let mangedContext = appDelegate.persistentContainer.viewContext
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "LegueCoreData")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+        do {
+            try mangedContext.execute(deleteRequest)
+            try mangedContext.save()
+        } catch {
+            print ("There was an error")
+        }
+    }
+
     func serviceCall(){
         APIClient.instance.getData(url: self.url.rawValue ,id : legueId!) { (sport: EventModel?, error) in
             if let error = error {
@@ -72,7 +135,7 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
         case 1:
             return eventDetails.count
         case 2:
-            return 15
+            return teamDetails.count
             
         default:
             return 15
@@ -99,6 +162,7 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
             
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TeamCollectionViewCell", for: indexPath) as! TeamCollectionViewCell
+            cell.teamImageView.imageUrl = teamDetails[indexPath.row].strTeamBadge!
             return cell
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TeamCollectionViewCell", for: indexPath) as! TeamCollectionViewCell
