@@ -93,7 +93,7 @@ extension FavouriteLeagueViewController :UITableViewDelegate,UITableViewDataSour
     @objc func oneTapped(_ sender: UIButton) {
             let newViewController =  self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
         let index = sender.tag
-        newViewController.youtubeChannels = dataLegueDetails[index].strYoutube
+        newViewController.link = dataLegueDetails[index].strYoutube
             self.navigationController?.pushViewController(newViewController, animated: true)
             }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

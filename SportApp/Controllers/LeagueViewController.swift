@@ -106,7 +106,7 @@ extension LeagueViewController :UITableViewDelegate,UITableViewDataSource{
     @objc func oneTapped(_ sender: UIButton) {
             let newViewController =  self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
         var index = sender.tag
-        newViewController.youtubeChannels = dataLegueDetails[index].strYoutube
+        newViewController.link = dataLegueDetails[index].strYoutube
             self.navigationController?.pushViewController(newViewController, animated: true)
             
         }

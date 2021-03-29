@@ -13,8 +13,8 @@ class LeagueDetailsViewController: UIViewController {
     @IBOutlet weak var resultCollectionView: UICollectionView!
     @IBOutlet weak var eventCollectionView: UICollectionView!
     var legueId : String?
-    var legueIDS = [String]()
     var teamDetails = [Teams]()
+    var leguesCoreData = [LegueCoreData]()
     var eventDetails =  [Events](){
         didSet{
             APIClient.instance.getData(url: self.teamDetailsUrl.rawValue, id : legueId! ) { (sport: TeamModel?, error) in
@@ -35,7 +35,7 @@ class LeagueDetailsViewController: UIViewController {
     var url : URLS = .eventDetailsUrl
     //let eventDetailsUrl = "https://www.thesportsdb.com/api/v1/json/1/eventspastleague.php?id="
     var favouriteButton: UIBarButtonItem{
-        let filterButton = UIBarButtonItem(image: UIImage(named: "heart-2"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(favourite))
+        let filterButton = UIBarButtonItem(image: UIImage(named: "heart (1)"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(favourite))
         return filterButton
         
     }
@@ -46,22 +46,52 @@ class LeagueDetailsViewController: UIViewController {
         self.resultCollectionView.register(UINib(nibName: "ResultCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "ResultCollectionViewCell")
         self.teamCollectionView.register(UINib(nibName: "TeamCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "TeamCollectionViewCell")
        
-        self.navigationItem.rightBarButtonItem = self.favouriteButton
+      
+        self.getCoreDate()
         self.serviceCall()
+        self.navigationItem.rightBarButtonItem = self.favouriteButton
         self.eventCollectionView.reloadData()
         self.resultCollectionView.reloadData()
         self.teamCollectionView.reloadData()
     }
+    func getCoreDate() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let mangedContext = appDelegate.persistentContainer.viewContext
+         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "LegueCoreData")
+        do {
+            try  leguesCoreData = (mangedContext.fetch(fetchRequest) as? [LegueCoreData])!
+            
+        } catch let error as NSError {
+            print(error)
+        }
+        
+    }
+//    @objc private func favourite(){
+//        if let item = self.navigationItem.rightBarButtonItem{
+//            if item.image == UIImage(named: "heart (1)"){
+//                item.image = UIImage(named: "heart (2)")
+//                self.SaveFavouriteLegue()
+//            }
+//            else if item.image == UIImage(named: "heart (2)"){
+//             item.image = UIImage(named: "heart (1)")
+//                self.DeleteFavouriteLegue()
+//            }
+//        }
+//    }
     @objc private func favourite(){
         if let item = self.navigationItem.rightBarButtonItem{
-            if item.image == UIImage(named: "heart-2"){
-                item.image = UIImage(named: "heart-2-1")
-                self.SaveFavouriteLegue()
-            }
-            else if item.image == UIImage(named: "heart-2-1"){
-             item.image = UIImage(named: "heart-2")
-                self.DeleteFavouriteLegue()
-            }
+            for  i in (0..<self.leguesCoreData.count){
+                if legueId == leguesCoreData[i].iD{
+                      item.image = UIImage(named: "heart (1)")
+                       self.DeleteFavouriteLegue()
+                    }
+                else{
+                    item.image = UIImage(named: "heart (2)")
+                    self.SaveFavouriteLegue()
+                }
+                }
+               
+            
         }
     }
     func SaveFavouriteLegue(){
@@ -176,5 +206,18 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
             return cell
             
         }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "seque" {
+            if let indexPath = self.teamCollectionView.indexPathsForSelectedItems?.first {
+                let controller = segue.destination as! TeamDetailsViewController
+                controller.teamId = teamDetails[indexPath.row].idTeam!
+            }
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let legue =  self.storyboard?.instantiateViewController(withIdentifier: "TeamDetailsViewController") as! TeamDetailsViewController
+     
+        self.performSegue(withIdentifier: "seque", sender: self)
     }
 }

@@ -8,11 +8,11 @@
 import UIKit
 import WebKit
 class WebViewController: UIViewController {
-    var youtubeChannels : String?
+    var link : String?
     @IBOutlet weak var webView: WKWebView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        webView.load(URLRequest(url:URL(string : "https://" + youtubeChannels!)!))
+        webView.load(URLRequest(url:URL(string : "https://" + link!)!))
         // Do any additional setup after loading the view.
     }
     
