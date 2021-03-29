@@ -12,12 +12,13 @@ class LeagueDetailsViewController: UIViewController {
     @IBOutlet weak var teamCollectionView: UICollectionView!
     @IBOutlet weak var resultCollectionView: UICollectionView!
     @IBOutlet weak var eventCollectionView: UICollectionView!
-    var legueId : String?
+    var legueId : String = ""
     var teamDetails = [Teams]()
     var leguesCoreData = [LegueCoreData]()
+    
     var eventDetails =  [Events](){
         didSet{
-            APIClient.instance.getData(url: self.teamDetailsUrl.rawValue, id : legueId! ) { (sport: TeamModel?, error) in
+            APIClient.instance.getData(url: self.teamDetailsUrl.rawValue, id : legueId ) { (sport: TeamModel?, error) in
                 if let error = error {
                     print(error)
                 }else{
@@ -45,11 +46,11 @@ class LeagueDetailsViewController: UIViewController {
         self.eventCollectionView.register(UINib(nibName: "EventCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "EventCollectionViewCell")
         self.resultCollectionView.register(UINib(nibName: "ResultCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "ResultCollectionViewCell")
         self.teamCollectionView.register(UINib(nibName: "TeamCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "TeamCollectionViewCell")
-       
-      
+        self.title = "Legue Details"
         self.getCoreDate()
         self.serviceCall()
         self.navigationItem.rightBarButtonItem = self.favouriteButton
+        self.configure()
         self.eventCollectionView.reloadData()
         self.resultCollectionView.reloadData()
         self.teamCollectionView.reloadData()
@@ -66,34 +67,34 @@ class LeagueDetailsViewController: UIViewController {
         }
         
     }
-//    @objc private func favourite(){
-//        if let item = self.navigationItem.rightBarButtonItem{
-//            if item.image == UIImage(named: "heart (1)"){
-//                item.image = UIImage(named: "heart (2)")
-//                self.SaveFavouriteLegue()
-//            }
-//            else if item.image == UIImage(named: "heart (2)"){
-//             item.image = UIImage(named: "heart (1)")
-//                self.DeleteFavouriteLegue()
-//            }
-//        }
-//    }
     @objc private func favourite(){
         if let item = self.navigationItem.rightBarButtonItem{
-            for  i in (0..<self.leguesCoreData.count){
-                if legueId == leguesCoreData[i].iD{
-                      item.image = UIImage(named: "heart (1)")
-                       self.DeleteFavouriteLegue()
-                    }
-                else{
-                    item.image = UIImage(named: "heart (2)")
-                    self.SaveFavouriteLegue()
-                }
-                }
-               
-            
+            if item.image == UIImage(named: "heart (1)"){
+                item.image = UIImage(named: "heart (2)")
+                self.SaveFavouriteLegue()
+            }
+            else if item.image == UIImage(named: "heart (2)"){
+             item.image = UIImage(named: "heart (1)")
+//                self.DeleteFavouriteLegue()
+                self.deleteRecords()
+            }
         }
     }
+    func configure(){
+        if let item = self.navigationItem.rightBarButtonItem{
+        if leguesCoreData.count > 0{
+        for  i in (0..<self.leguesCoreData.count){
+            if  legueId == leguesCoreData[i].iD{
+                item.image = UIImage(named: "heart (2)")
+            }
+        }
+            
+        }else{
+            item.image = UIImage(named: "heart (1)")
+        }
+        }
+    }
+
     func SaveFavouriteLegue(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let mangedContext = appDelegate.persistentContainer.viewContext
@@ -110,21 +111,32 @@ class LeagueDetailsViewController: UIViewController {
         }
         appDelegate.saveContext()
     }
-    func DeleteFavouriteLegue(){
+
+    func deleteRecords() -> Void {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let mangedContext = appDelegate.persistentContainer.viewContext
-        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "LegueCoreData")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-        do {
-            try mangedContext.execute(deleteRequest)
-            try mangedContext.save()
-        } catch {
-            print ("There was an error")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LegueCoreData")
+        let Predicate = NSPredicate(format: "iD==\(legueId)")
+         let result = try? mangedContext.fetch(fetchRequest)
+            let resultData = result as! [LegueCoreData]
+
+       // let fetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
+        fetchRequest.predicate = Predicate
+        let objects = try! mangedContext.fetch(fetchRequest)
+        for obj in objects {
+            mangedContext.delete(obj as! NSManagedObject)
         }
+
+        do {
+            try mangedContext.save() // <- remember to put this :)
+        } catch {
+            // Do something... fatalerror
+        }
+        appDelegate.saveContext()
     }
 
     func serviceCall(){
-        APIClient.instance.getData(url: self.url.rawValue ,id : legueId!) { (sport: EventModel?, error) in
+        APIClient.instance.getData(url: self.url.rawValue ,id : legueId) { (sport: EventModel?, error) in
             if let error = error {
                 print(error)
             }else{

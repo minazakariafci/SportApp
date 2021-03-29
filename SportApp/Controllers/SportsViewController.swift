@@ -15,6 +15,7 @@ class SportsViewController: UIViewController {
     var sportsArr = [SportDetailsModel]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Sports"
         self.collectionView.register(UINib(nibName: "SportCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "SportCollectionViewCell")
         self.serviceCall()
     }

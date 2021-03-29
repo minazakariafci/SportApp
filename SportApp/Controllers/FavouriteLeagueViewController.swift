@@ -47,15 +47,25 @@ class FavouriteLeagueViewController: UIViewController {
         })
         self.tableView.reloadData()
     }
-    
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+////                self.getCoreDate()
+//                self.tableView.reloadData()
+//    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        self.getCoreDate()
-        self.tableView.reloadData()
-    }
+//            self.getCoreDate()
+//            self.tableView.reloadData()
+        }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+////        self.getCoreDate()
+////        self.tableView.reloadData()
+//        }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(UINib(nibName: "LegueTableViewCell", bundle: .main), forCellReuseIdentifier: "LegueTableViewCell")
+        self.title = "Favourite Legues"
         self.getCoreDate()
         self.tableView.reloadData()
     }
@@ -100,13 +110,13 @@ extension FavouriteLeagueViewController :UITableViewDelegate,UITableViewDataSour
         if segue.identifier == "seque" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = segue.destination as! LeagueDetailsViewController
-                controller.legueId = leguesCoreData[indexPath.row].iD as? String
+                controller.legueId = (leguesCoreData[indexPath.row].iD as? String)!
             }
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let legue =  self.storyboard?.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as! LeagueDetailsViewController
-        legue.legueId = leguesCoreData[indexPath.row].iD as? String
+        legue.legueId = (leguesCoreData[indexPath.row].iD as? String)!
         self.performSegue(withIdentifier: "seque", sender: self)
 
         

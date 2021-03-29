@@ -17,6 +17,7 @@ class TeamDetailsViewController: UIViewController {
     var data = [TeamsDetails]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Team"
         teamImageView.maskCircle()
         self.serviceCall()
         // Do any additional setup after loading the view.

@@ -67,6 +67,7 @@ class LeagueViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(UINib(nibName: "LegueTableViewCell", bundle: .main), forCellReuseIdentifier: "LegueTableViewCell")
+        self.title = "Legues"
         self.serviceCall()
        // self.tableView.reloadData()
     }
@@ -114,14 +115,14 @@ extension LeagueViewController :UITableViewDelegate,UITableViewDataSource{
         if segue.identifier == "seque" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = segue.destination as! LeagueDetailsViewController
-                controller.legueId = data[indexPath.row].idLeague
+                controller.legueId = data[indexPath.row].idLeague!
             }
         }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let legue =  self.storyboard?.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as! LeagueDetailsViewController
-        legue.legueId = data[indexPath.row].idLeague
+        legue.legueId = data[indexPath.row].idLeague!
         self.performSegue(withIdentifier: "seque", sender: self)
 
         
