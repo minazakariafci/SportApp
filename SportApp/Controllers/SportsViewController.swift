@@ -10,7 +10,6 @@ import UIKit
 class SportsViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
-  //  let sportsNameUrl = "https://www.thesportsdb.com/api/v1/json/1/all_sports.php"
     let sportsNameUrl : URLS = .sportsNameUrl
     var sportsArr = [SportDetailsModel]()
     override func viewDidLoad() {
@@ -21,6 +20,15 @@ class SportsViewController: UIViewController {
     }
     
     func serviceCall(){
+        guard APIClient.instance.checkInternet() else {
+            self.askForQuit { (canQuit) in
+                 if canQuit {
+                     self.quit()
+                    
+                 }
+            }
+            return
+        }
         APIClient.instance.getData(url: self.sportsNameUrl.rawValue ) { (sport: SportModel?, error) in
             if let error = error {
                 print(error)
@@ -34,6 +42,24 @@ class SportsViewController: UIViewController {
             
         }
     }
+        func askForQuit(_ completion:@escaping (_ canQuit: Bool) -> Void) {
+            let alert = UIAlertController(title: "Warning!", message: "Check Your Connection", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { (action) in
+                alert.dismiss(animated: true, completion: nil)
+                completion(true)
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.cancel, handler: { (action) in
+                   alert.dismiss(animated: true, completion: nil)
+                   completion(false)
+               }))
+            self.present(alert, animated: true, completion: nil)
+        }
+    
+        func quit() {
+            UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+            sleep(2)
+            exit(2)
+        }
     
     
 }

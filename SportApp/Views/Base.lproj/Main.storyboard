@@ -113,17 +113,17 @@
             <objects>
                 <viewController storyboardIdentifier="LeagueDetailsViewController" id="gAy-Hw-rnd" customClass="LeagueDetailsViewController" customModule="SportApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MxG-cr-rvQ">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="872"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UpComing Events" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kgh-7G-UBw">
-                                <rect key="frame" x="8" y="4" width="408" height="214"/>
+                                <rect key="frame" x="8" y="92" width="408" height="97.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aek-fo-lPa">
-                                <rect key="frame" x="0.0" y="218" width="428" height="167.33333333333337"/>
+                                <rect key="frame" x="0.0" y="189.33333333333337" width="428" height="177.66666666666663"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="U7b-WT-Cay">
                                     <size key="itemSize" width="128" height="128"/>
@@ -133,7 +133,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="cJS-UG-Bnw" customClass="EventCollectionViewCell" customModule="SportApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="19.666666666666668" width="128" height="128"/>
+                                        <rect key="frame" x="0.0" y="24.666666666666668" width="128" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="P1P-W1-BJT">
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
@@ -147,7 +147,7 @@
                                 </connections>
                             </collectionView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Z9g-Y5-twT">
-                                <rect key="frame" x="0.0" y="423.33333333333326" width="428" height="252"/>
+                                <rect key="frame" x="0.0" y="405" width="428" height="267.66666666666674"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xJn-Ra-RWe">
                                     <size key="itemSize" width="128" height="128"/>
@@ -171,13 +171,13 @@
                                 </connections>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Latest Result" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4eU-dD-cQk">
-                                <rect key="frame" x="8" y="393.33333333333331" width="408" height="30"/>
+                                <rect key="frame" x="8" y="375" width="408" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" tag="2" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bPH-J2-7e4">
-                                <rect key="frame" x="0.0" y="713.33333333333337" width="428" height="124.66666666666663"/>
+                                <rect key="frame" x="0.0" y="710.66666666666663" width="428" height="132.33333333333337"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="qim-a8-CYk">
                                     <size key="itemSize" width="128" height="128"/>
@@ -187,14 +187,14 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="DcN-8D-uPb" customClass="TeamCollectionViewCell" customModule="SportApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="-1.6666666666666667" width="128" height="128"/>
+                                        <rect key="frame" x="0.0" y="2.3333333333333335" width="128" height="127.99999999999999"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="P7p-GA-aBz">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="127.99999999999999"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </collectionViewCellContentView>
                                         <connections>
-                                            <segue destination="L3p-ZT-mxw" kind="show" identifier="seque" id="z3K-kf-CNa"/>
+                                            <segue destination="L3p-ZT-mxw" kind="show" identifier="seque" id="a9T-pA-evr"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -204,7 +204,7 @@
                                 </connections>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Teams" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0n1-Iu-U45">
-                                <rect key="frame" x="8" y="683.33333333333337" width="408" height="30"/>
+                                <rect key="frame" x="8" y="680.66666666666663" width="408" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -248,21 +248,21 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V41-Bn-BBa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4091" y="779"/>
+            <point key="canvasLocation" x="3531" y="798"/>
         </scene>
         <!--Team Details View Controller-->
         <scene sceneID="KG0-sn-DYr">
             <objects>
                 <viewController storyboardIdentifier="TeamDetailsViewController" id="L3p-ZT-mxw" customClass="TeamDetailsViewController" customModule="SportApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JeC-Zc-u9u">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="872"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="47F-6S-pHZ">
-                                <rect key="frame" x="0.0" y="0.0" width="428" height="838"/>
+                                <rect key="frame" x="0.0" y="88" width="428" height="755"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2qA-Lw-t9J">
-                                        <rect key="frame" x="0.0" y="0.0" width="428" height="4000"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="428" height="2000"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ylz-xW-n1u">
                                                 <rect key="frame" x="32" y="32" width="100" height="100"/>
@@ -324,7 +324,7 @@
                                             <constraint firstItem="cMQ-Nd-qQN" firstAttribute="leading" secondItem="ncd-62-Wle" secondAttribute="trailing" constant="24" id="0ew-Q9-MUu"/>
                                             <constraint firstItem="87E-dl-4Fe" firstAttribute="height" secondItem="2V3-5c-c3q" secondAttribute="height" id="2ct-vm-zsC"/>
                                             <constraint firstItem="cMQ-Nd-qQN" firstAttribute="top" secondItem="Ylz-xW-n1u" secondAttribute="bottom" constant="32" id="3Fl-Sc-4hm"/>
-                                            <constraint firstAttribute="height" constant="4000" id="3R9-pV-e8w"/>
+                                            <constraint firstAttribute="height" constant="2000" id="3R9-pV-e8w"/>
                                             <constraint firstItem="kqE-vh-DOb" firstAttribute="leading" secondItem="2qA-Lw-t9J" secondAttribute="leading" constant="32" id="69K-gc-e6I"/>
                                             <constraint firstItem="h1A-O1-gMl" firstAttribute="leading" secondItem="2qA-Lw-t9J" secondAttribute="leading" constant="32" id="ERr-jZ-TLg"/>
                                             <constraint firstItem="2V3-5c-c3q" firstAttribute="height" secondItem="ncd-62-Wle" secondAttribute="height" id="Ecf-po-xIV"/>
@@ -379,7 +379,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dx1-SW-dxM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5115" y="805"/>
+            <point key="canvasLocation" x="4751" y="798"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="eF1-lH-JjF">
@@ -413,7 +413,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rg9-IB-GwB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4933" y="66"/>
+            <point key="canvasLocation" x="3782" y="14"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="6ev-Kw-BHw">
@@ -473,7 +473,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="gAy-Hw-rnd" kind="show" identifier="seque" id="1Tc-o1-1Gl"/>
+                                            <segue destination="gAy-Hw-rnd" kind="show" identifier="seque" id="2w7-A8-eZo"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -492,7 +492,9 @@
                             <constraint firstItem="BtN-lJ-zUg" firstAttribute="top" secondItem="alh-YL-WE8" secondAttribute="top" id="wPO-NU-vsp"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="ltQ-kw-V0F"/>
+                    <navigationItem key="navigationItem" id="ltQ-kw-V0F">
+                        <barButtonItem key="backBarButtonItem" title="         " id="tXM-TI-gBz"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="BtN-lJ-zUg" id="KlE-Rt-5Uz"/>
                     </connections>
@@ -522,7 +524,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="R5t-kz-wML"/>
+        <segue reference="2w7-A8-eZo"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="facebook (3)" width="32" height="32"/>

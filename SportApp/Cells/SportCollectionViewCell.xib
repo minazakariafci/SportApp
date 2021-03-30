@@ -16,11 +16,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="242" height="125"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="football" translatesAutoresizingMaskIntoConstraints="NO" id="jbt-28-php">
-                        <rect key="frame" x="0.0" y="0.0" width="242" height="88.5"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="jbt-28-php">
+                        <rect key="frame" x="0.0" y="0.0" width="242" height="109"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="football" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaF-NF-0he">
-                        <rect key="frame" x="8" y="92.5" width="222" height="20.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaF-NF-0he">
+                        <rect key="frame" x="8" y="113" width="222" height="0.0"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -45,7 +45,4 @@
             <point key="canvasLocation" x="-44.927536231884062" y="102.79017857142857"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="football" width="1157" height="1157"/>
-    </resources>
 </document>

@@ -16,7 +16,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="117"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="liverPool" translatesAutoresizingMaskIntoConstraints="NO" id="ccc-Y5-Z1U">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ccc-Y5-Z1U">
                         <rect key="frame" x="4" y="12" width="75" height="75"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="75" id="d7i-x0-57m"/>
@@ -24,16 +24,16 @@
                             <constraint firstAttribute="height" constant="75" id="yFb-f7-MEj"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="football" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nr1-M3-5ge">
-                        <rect key="frame" x="103" y="44" width="57.5" height="20.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nr1-M3-5ge">
+                        <rect key="frame" x="103" y="44" width="0.0" height="0.0"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b3W-5h-vnI">
-                        <rect key="frame" x="291" y="40" width="21" height="19"/>
+                        <rect key="frame" x="280" y="40" width="32" height="19"/>
                         <color key="tintColor" red="0.099177904430000005" green="0.1210411862" blue="0.14747992160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <state key="normal" image="arrowshape.turn.up.right" catalog="system"/>
+                        <state key="normal" image="youtube"/>
                     </button>
                 </subviews>
                 <constraints>
@@ -57,7 +57,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="arrowshape.turn.up.right" catalog="system" width="128" height="106"/>
-        <image name="liverPool" width="1024" height="768"/>
+        <image name="youtube" width="32" height="32"/>
     </resources>
 </document>

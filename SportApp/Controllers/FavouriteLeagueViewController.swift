@@ -10,36 +10,15 @@ import CoreData
 class FavouriteLeagueViewController: UIViewController {
     let dispatchGroup = DispatchGroup()
     let lequeDetailsUrl :URLS = .lequeDetailsUrl
-    var dataLegueDetails = [LeaguesDetailsIDModel]()
+    var data = [LeaguesDetailsIDModel]()
     @IBOutlet weak var tableView: UITableView!
     var leguesCoreData = [LegueCoreData](){
         didSet{
-            for  i in (0..<self.leguesCoreData.count){
-                self.dispatchGroup.enter()
-                APIClient.instance.getData(url: self.lequeDetailsUrl.rawValue,id : self.leguesCoreData[i].iD! ) { (sport: legueIDModel?, error) in
-                    print(sport!)
-                    if error != nil {
-                        print(error!)
-                    }else{
-                        guard let LequeDetailsFareed = sport else { return  }
-                        
-                        self.dataLegueDetails .append(LequeDetailsFareed.leagues![0])
-                       
-                    }
-                    
-                    self.dispatchGroup.leave()
-                   
-                }
-            
-            }
-            self.dispatchGroup.notify(queue: .main) {
-                self.sortData()
-                self.tableView.reloadData()
-            }
-          }
+            self.serviceCall()
+        }
     }
     func sortData() {
-        dataLegueDetails.sort(by: {(id1, id2) -> Bool in
+        data.sort(by: {(id1, id2) -> Bool in
             if let idleague1 = id1.idLeague, let idleague2 = id2.idLeague {
                 return idleague1 < idleague2
             }
@@ -47,80 +26,114 @@ class FavouriteLeagueViewController: UIViewController {
         })
         self.tableView.reloadData()
     }
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-////                self.getCoreDate()
-//                self.tableView.reloadData()
-//    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//            self.getCoreDate()
-//            self.tableView.reloadData()
-        }
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-////        self.getCoreDate()
-////        self.tableView.reloadData()
-//        }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(UINib(nibName: "LegueTableViewCell", bundle: .main), forCellReuseIdentifier: "LegueTableViewCell")
-        self.title = "Favourite Legues"
+        self.title = "Favourite Leagues"
+        tableView.tableFooterView = UIView(frame: .zero)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.getCoreDate()
         self.tableView.reloadData()
     }
-
+    
     func getCoreDate() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let mangedContext = appDelegate.persistentContainer.viewContext
-         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "LegueCoreData")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "LegueCoreData")
         do {
             try  leguesCoreData = (mangedContext.fetch(fetchRequest) as? [LegueCoreData])!
             tableView.reloadData()
         } catch let error as NSError {
             print(error)
         }
-        
     }
-
-}
+    func askForQuit(_ completion:@escaping (_ canQuit: Bool) -> Void) {
+        let alert = UIAlertController(title: "Warning!", message: "Check Your Connection", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+            completion(true)
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.cancel, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+            completion(false)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    func quit() {
+        UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+        sleep(2)
+        exit(2)
+    }
+    func serviceCall(){
+        data.removeAll()
+        for  i in (0..<self.leguesCoreData.count){
+            self.dispatchGroup.enter()
+            guard APIClient.instance.checkInternet() else {
+                self.askForQuit { (canQuit) in
+                    if canQuit {
+                        self.quit()
+                    }
+                }
+                return
+            }
+            APIClient.instance.getData(url: self.lequeDetailsUrl.rawValue,id : self.leguesCoreData[i].iD! ) { (sport: legueIDModel?, error) in
+                print(sport)
+                if error != nil {
+                    print(error!)
+                }else{
+                    guard let LequeDetails = sport else { return  }
+                    self.data .append(LequeDetails.leagues![0])
+                    }
+                self.dispatchGroup.leave()
+            }
+            }
+        self.dispatchGroup.notify(queue: .main) {
+            self.sortData()
+            self.tableView.reloadData()
+        }
+    }
+    }
 
 extension FavouriteLeagueViewController :UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return leguesCoreData.count
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LegueTableViewCell", for: indexPath) as! LegueTableViewCell
-        if dataLegueDetails.count>indexPath.row{
-            cell.nameLabel.text = dataLegueDetails[indexPath.row].strLeague
-            cell.legueImageView.imageUrl = dataLegueDetails[indexPath.row].strBadge!
+        cell.selectionStyle = .none
+        if data.count>indexPath.row{
+            cell.nameLabel.text = data[indexPath.row].strLeague
+            cell.legueImageView.imageUrl = data[indexPath.row].strBadge!
             cell.youtubeButton.addTarget(self, action: #selector(oneTapped(_:)), for: .touchUpInside)
             cell.youtubeButton.tag = indexPath.row
         }
         return cell
     }
     @objc func oneTapped(_ sender: UIButton) {
-            let newViewController =  self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
+        let newViewController =  self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
         let index = sender.tag
-        newViewController.link = dataLegueDetails[index].strYoutube
-            self.navigationController?.pushViewController(newViewController, animated: true)
-            }
+        newViewController.link = data[index].strYoutube
+        self.navigationController?.pushViewController(newViewController, animated: true)
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "seque" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = segue.destination as! LeagueDetailsViewController
-                controller.legueId = (leguesCoreData[indexPath.row].iD as? String)!
+                controller.legueId = (data[indexPath.row].idLeague as? String)!
             }
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let legue =  self.storyboard?.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as! LeagueDetailsViewController
-        legue.legueId = (leguesCoreData[indexPath.row].iD as? String)!
+        legue.legueId = (data[indexPath.row].idLeague as? String)!
         self.performSegue(withIdentifier: "seque", sender: self)
-
+        
         
     }
-
+    
     
 }
