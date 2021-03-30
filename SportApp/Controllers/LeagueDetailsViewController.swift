@@ -46,11 +46,6 @@ class LeagueDetailsViewController: UIViewController {
         self.resultCollectionView.register(UINib(nibName: "ResultCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "ResultCollectionViewCell")
         self.teamCollectionView.register(UINib(nibName: "TeamCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "TeamCollectionViewCell")
         self.title = "League Details"
-        let imageView = UIImageView(image: UIImage(named: "heart (1)"))
-        imageView.tintColor = .red
-        let imageView2 = UIImageView(image: UIImage(named: "heart (2)"))
-        imageView2.tintColor = .red
-        self.navigationController?.navigationBar.tintColor = .red
         self.getCoreDate()
         self.serviceCall()
         self.navigationItem.rightBarButtonItem = self.favouriteButton
