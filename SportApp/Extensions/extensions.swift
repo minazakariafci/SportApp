@@ -16,10 +16,7 @@ extension UIImageView {
       self.layer.masksToBounds = false
       self.clipsToBounds = true
     }
-}
 
-
-extension UIImageView {
     
     @IBInspectable
     var imageUrl: String {

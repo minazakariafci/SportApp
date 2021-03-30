@@ -34,10 +34,9 @@ class LeagueDetailsViewController: UIViewController {
     }
     var teamDetailsUrl : URLS = .teamDeatilsUrl
     var url : URLS = .eventDetailsUrl
-    //let eventDetailsUrl = "https://www.thesportsdb.com/api/v1/json/1/eventspastleague.php?id="
     var favouriteButton: UIBarButtonItem{
-        let filterButton = UIBarButtonItem(image: UIImage(named: "heart (1)"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(favourite))
-        return filterButton
+        let favouriteButton = UIBarButtonItem(image: UIImage(named: "heart (1)"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(favourite))
+        return favouriteButton
         
     }
    
@@ -46,7 +45,12 @@ class LeagueDetailsViewController: UIViewController {
         self.eventCollectionView.register(UINib(nibName: "EventCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "EventCollectionViewCell")
         self.resultCollectionView.register(UINib(nibName: "ResultCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "ResultCollectionViewCell")
         self.teamCollectionView.register(UINib(nibName: "TeamCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "TeamCollectionViewCell")
-        self.title = "Legue Details"
+        self.title = "League Details"
+        let imageView = UIImageView(image: UIImage(named: "heart (1)"))
+        imageView.tintColor = .red
+        let imageView2 = UIImageView(image: UIImage(named: "heart (2)"))
+        imageView2.tintColor = .red
+        self.navigationController?.navigationBar.tintColor = .red
         self.getCoreDate()
         self.serviceCall()
         self.navigationItem.rightBarButtonItem = self.favouriteButton
@@ -116,21 +120,18 @@ class LeagueDetailsViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let mangedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LegueCoreData")
-        let Predicate = NSPredicate(format: "iD==\(legueId)")
+        let Predicate = NSPredicate(format: "iD==\(String(describing: legueId))")
          let result = try? mangedContext.fetch(fetchRequest)
-            let resultData = result as! [LegueCoreData]
-
-       // let fetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
+        _ = result as! [LegueCoreData]
         fetchRequest.predicate = Predicate
         let objects = try! mangedContext.fetch(fetchRequest)
         for obj in objects {
             mangedContext.delete(obj as! NSManagedObject)
         }
-
         do {
-            try mangedContext.save() // <- remember to put this :)
+            try mangedContext.save()
         } catch {
-            // Do something... fatalerror
+            print(error.localizedDescription)
         }
         appDelegate.saveContext()
     }
@@ -228,8 +229,13 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
         }
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch collectionView.tag {
+        case 2:
         let legue =  self.storyboard?.instantiateViewController(withIdentifier: "TeamDetailsViewController") as! TeamDetailsViewController
-     
         self.performSegue(withIdentifier: "seque", sender: self)
+        default:
+            return
+        }
     }
+    
 }
