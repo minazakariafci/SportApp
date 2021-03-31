@@ -15,6 +15,9 @@ class LeagueDetailsViewController: UIViewController {
     var legueId : String = ""
     var teamDetails = [Teams]()
     var leguesCoreData = [LegueCoreData]()
+    var leagueImage : String = ""
+    var leagueName : String = ""
+    var youtubeLink : String = ""
     
     var eventDetails =  [Events](){
         didSet{
@@ -36,6 +39,7 @@ class LeagueDetailsViewController: UIViewController {
     var url : URLS = .eventDetailsUrl
     var favouriteButton: UIBarButtonItem{
         let favouriteButton = UIBarButtonItem(image: UIImage(named: "heart (1)"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(favourite))
+        favouriteButton.tintColor = .red
         return favouriteButton
         
     }
@@ -45,11 +49,11 @@ class LeagueDetailsViewController: UIViewController {
         self.eventCollectionView.register(UINib(nibName: "EventCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "EventCollectionViewCell")
         self.resultCollectionView.register(UINib(nibName: "ResultCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "ResultCollectionViewCell")
         self.teamCollectionView.register(UINib(nibName: "TeamCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "TeamCollectionViewCell")
-        self.title = "League Details"
         self.getCoreDate()
         self.serviceCall()
         self.navigationItem.rightBarButtonItem = self.favouriteButton
         self.configure()
+        self.title = leagueName
         self.eventCollectionView.reloadData()
         self.resultCollectionView.reloadData()
         self.teamCollectionView.reloadData()
@@ -101,6 +105,9 @@ class LeagueDetailsViewController: UIViewController {
         let legueCoreData = NSManagedObject(entity: entity!, insertInto: mangedContext)
         
         legueCoreData.setValue(legueId, forKey: "iD")
+        legueCoreData.setValue(leagueName, forKey: "legueName")
+        legueCoreData.setValue(leagueImage, forKey: "image")
+        legueCoreData.setValue(youtubeLink, forKey: "youtubeLink")
         do {
             try mangedContext.save()
             print(legueCoreData)

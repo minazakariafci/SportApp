@@ -187,10 +187,10 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="DcN-8D-uPb" customClass="TeamCollectionViewCell" customModule="SportApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="2.3333333333333335" width="128" height="127.99999999999997"/>
+                                        <rect key="frame" x="0.0" y="2.3333333333333335" width="128" height="127.99999999999999"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="P7p-GA-aBz">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="127.99999999999997"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="127.99999999999999"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </collectionViewCellContentView>
                                         <connections>
@@ -503,11 +503,11 @@
             </objects>
             <point key="canvasLocation" x="2005.7971014492755" y="761.38392857142856"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Favourites-->
         <scene sceneID="fWM-dM-zEM">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PK0-DX-DTJ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="favorites" id="AQ2-t9-jrt"/>
+                    <tabBarItem key="tabBarItem" title="Favourites" image="heart (1)" id="AQ2-t9-jrt"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fqk-e5-a0O">
                         <rect key="frame" x="0.0" y="44" width="428" height="44"/>
@@ -528,6 +528,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="facebook (3)" width="32" height="32"/>
+        <image name="heart (1)" width="32" height="32"/>
         <image name="instagram" width="32" height="32"/>
         <image name="olympic-games" width="32" height="32"/>
         <image name="twitter" width="32" height="32"/>

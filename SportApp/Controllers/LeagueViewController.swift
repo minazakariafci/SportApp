@@ -13,6 +13,7 @@ class LeagueViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     let legueNameurl : URLS = .legueNameUrl
     let lequeDetailsUrl :URLS = .lequeDetailsUrl
+    var image : String = ""
     var data = [LegueDetailsModel](){
         didSet{
             self.getLegueDetails()
@@ -94,24 +95,40 @@ extension LeagueViewController :UITableViewDelegate,UITableViewDataSource{
         cell.selectionStyle = .none
         if dataLegueDetails.count>indexPath.row{
             cell.nameLabel.text = dataLegueDetails[indexPath.row].strLeague
-            cell.legueImageView.imageUrl = dataLegueDetails[indexPath.row].strBadge!
+            cell.legueImageView.imageUrl = dataLegueDetails[indexPath.row].strBadge ?? ""
+        
             cell.youtubeButton.addTarget(self, action: #selector(oneTapped(_:)), for: .touchUpInside)
-            cell.youtubeButton.tag = indexPath.row
-        }
+                cell.youtubeButton.tag = indexPath.row
+                
+            }
+        
         return cell
     }
     @objc func oneTapped(_ sender: UIButton) {
         let newViewController =  self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
-        var index = sender.tag
+        let index = sender.tag
+        if dataLegueDetails[index].strYoutube == ""{
+            let alert = UIAlertController(title: "Error!", message: "No Youtube channel for \(dataLegueDetails[index].strLeague ?? "")", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { (action) in
+                alert.dismiss(animated: true, completion: nil)
+                return
+            }))
+           
+            self.present(alert, animated: true, completion: nil)
+        }else{
         newViewController.link = dataLegueDetails[index].strYoutube
         self.navigationController?.pushViewController(newViewController, animated: true)
-        
+        }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "seque" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = segue.destination as! LeagueDetailsViewController
                 controller.legueId = data[indexPath.row].idLeague!
+                controller.leagueImage = dataLegueDetails[indexPath.row].strBadge!
+                controller.leagueName = data[indexPath.row].strLeague!
+                controller.youtubeLink = dataLegueDetails[indexPath.row].strYoutube ??  ""
+                
             }
         }
     }

@@ -2,8 +2,11 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19H524" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="LegueCoreData" representedClassName="LegueCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="iD" optional="YES" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
+        <attribute name="legueName" optional="YES" attributeType="String"/>
+        <attribute name="youtubeLink" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="LegueCoreData" positionX="-63" positionY="-18" width="128" height="58"/>
+        <element name="LegueCoreData" positionX="-63" positionY="-18" width="128" height="103"/>
     </elements>
 </model>
