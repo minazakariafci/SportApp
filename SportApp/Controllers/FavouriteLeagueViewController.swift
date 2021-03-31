@@ -14,12 +14,12 @@ class FavouriteLeagueViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var leguesCoreData = [LegueCoreData](){
         didSet{
-            self.serviceCall()
+            //            self.serviceCall()
         }
     }
     func sortData() {
-        data.sort(by: {(id1, id2) -> Bool in
-            if let idleague1 = id1.idLeague, let idleague2 = id2.idLeague {
+        leguesCoreData.sort(by: {(id1, id2) -> Bool in
+            if let idleague1 = id1.iD, let idleague2 = id2.iD {
                 return idleague1 < idleague2
             }
             return false
@@ -36,6 +36,7 @@ class FavouriteLeagueViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.getCoreDate()
+        self.sortData()
         self.tableView.reloadData()
     }
     
@@ -86,28 +87,28 @@ class FavouriteLeagueViewController: UIViewController {
                 }else{
                     guard let LequeDetails = sport else { return  }
                     self.data .append(LequeDetails.leagues![0])
-                    }
+                }
                 self.dispatchGroup.leave()
             }
-            }
+        }
         self.dispatchGroup.notify(queue: .main) {
             self.sortData()
             self.tableView.reloadData()
         }
     }
-    }
+}
 
 extension FavouriteLeagueViewController :UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return leguesCoreData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LegueTableViewCell", for: indexPath) as! LegueTableViewCell
         cell.selectionStyle = .none
-        if data.count>indexPath.row{
-            cell.nameLabel.text = data[indexPath.row].strLeague
-            cell.legueImageView.imageUrl = data[indexPath.row].strBadge!
+        if leguesCoreData.count>indexPath.row{
+            cell.nameLabel.text = leguesCoreData[indexPath.row].legueName
+            cell.legueImageView.imageUrl = leguesCoreData[indexPath.row].image ?? ""
             cell.youtubeButton.addTarget(self, action: #selector(oneTapped(_:)), for: .touchUpInside)
             cell.youtubeButton.tag = indexPath.row
         }
@@ -115,21 +116,48 @@ extension FavouriteLeagueViewController :UITableViewDelegate,UITableViewDataSour
     }
     @objc func oneTapped(_ sender: UIButton) {
         let newViewController =  self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
+        guard APIClient.instance.checkInternet() else {
+            self.askForQuit { (canQuit) in
+                if canQuit {
+                    self.quit()
+                }
+            }
+            return
+        }
         let index = sender.tag
-        newViewController.link = data[index].strYoutube
-        self.navigationController?.pushViewController(newViewController, animated: true)
+        if leguesCoreData[index].youtubeLink == ""{
+            let alert = UIAlertController(title: "Warning!", message: "No Youtube channel for \(leguesCoreData[index].legueName ?? "")", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { (action) in
+                alert.dismiss(animated: true, completion: nil)
+                return
+            }))
+            
+            self.present(alert, animated: true, completion: nil)
+        }else{
+            newViewController.link = leguesCoreData[index].youtubeLink
+            self.navigationController?.pushViewController(newViewController, animated: true)
+        }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "seque" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = segue.destination as! LeagueDetailsViewController
-                controller.legueId = (data[indexPath.row].idLeague as? String)!
+                controller.legueId = (leguesCoreData[indexPath.row].iD as? String)!
+                controller.leagueName = (leguesCoreData[indexPath.row].legueName as? String)!
             }
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let legue =  self.storyboard?.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as! LeagueDetailsViewController
-        legue.legueId = (data[indexPath.row].idLeague as? String)!
+        guard APIClient.instance.checkInternet() else {
+            self.askForQuit { (canQuit) in
+                if canQuit {
+                    self.quit()
+                }
+            }
+            return
+        }
+        legue.legueId = (leguesCoreData[indexPath.row].iD as? String)!
         self.performSegue(withIdentifier: "seque", sender: self)
         
         
