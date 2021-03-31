@@ -26,7 +26,9 @@ class LeagueDetailsViewController: UIViewController {
                     print(error)
                 }else{
                     guard let datasports = sport else { return  }
-                    self.teamDetails = (datasports.teams)!
+                    if let teams = (datasports.teams){
+                        self.teamDetails = teams
+                        }
                     DispatchQueue.main.async {
                         self.teamCollectionView.reloadData()
                     }
@@ -144,7 +146,9 @@ class LeagueDetailsViewController: UIViewController {
                 print(error)
             }else{
                 guard let datasports = sport else { return  }
-                self.eventDetails = (datasports.events)!
+                if let events = (datasports.events){
+                    self.eventDetails = events
+                    }
                 DispatchQueue.main.async {
                     self.eventCollectionView.reloadData()
                     self.resultCollectionView.reloadData()
@@ -227,6 +231,7 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
             if let indexPath = self.teamCollectionView.indexPathsForSelectedItems?.first {
                 let controller = segue.destination as! TeamDetailsViewController
                 controller.teamId = teamDetails[indexPath.row].idTeam!
+                controller.teamName = teamDetails[indexPath.row].strTeam!
             }
         }
     }

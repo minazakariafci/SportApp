@@ -124,9 +124,9 @@ extension LeagueViewController :UITableViewDelegate,UITableViewDataSource{
         if segue.identifier == "seque" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let controller = segue.destination as! LeagueDetailsViewController
-                controller.legueId = data[indexPath.row].idLeague!
-                controller.leagueImage = dataLegueDetails[indexPath.row].strBadge!
-                controller.leagueName = data[indexPath.row].strLeague!
+                controller.legueId = data[indexPath.row].idLeague ?? ""
+                controller.leagueImage = dataLegueDetails[indexPath.row].strBadge ?? ""
+                controller.leagueName = data[indexPath.row].strLeague ?? ""
                 controller.youtubeLink = dataLegueDetails[indexPath.row].strYoutube ??  ""
                 
             }
