@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import JGProgressHUD
 class LeagueDetailsViewController: UIViewController {
     
     @IBOutlet weak var teamCollectionView: UICollectionView!
@@ -18,25 +19,16 @@ class LeagueDetailsViewController: UIViewController {
     var leagueImage : String = ""
     var leagueName : String = ""
     var youtubeLink : String = ""
-    
+    var homeTeamDetails = [TeamsDetails]()
+    var awayTeamDetails = [TeamsDetails]()
+    let dispatchGroup = DispatchGroup()
+    let hud = JGProgressHUD()
     var eventDetails =  [Events](){
         didSet{
-            APIClient.instance.getData(url: self.teamDetailsUrl.rawValue, id : legueId ) { (sport: TeamModel?, error) in
-                if let error = error {
-                    print(error)
-                }else{
-                    guard let datasports = sport else { return  }
-                    if let teams = (datasports.teams){
-                        self.teamDetails = teams
-                        }
-                    DispatchQueue.main.async {
-                        self.teamCollectionView.reloadData()
-                    }
-                }
-                
-            }
+            self.getTeamDetails()
         }
     }
+    let TeamDetailsIDUrl :URLS = .TeamDetailsIDUrl
     var teamDetailsUrl : URLS = .teamDeatilsUrl
     var url : URLS = .eventDetailsUrl
     var favouriteButton: UIBarButtonItem{
@@ -53,6 +45,7 @@ class LeagueDetailsViewController: UIViewController {
         self.teamCollectionView.register(UINib(nibName: "TeamCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "TeamCollectionViewCell")
         self.getCoreDate()
         self.serviceCall()
+        self.getAllTeams()
         self.navigationItem.rightBarButtonItem = self.favouriteButton
         self.configure()
         self.title = leagueName
@@ -60,6 +53,7 @@ class LeagueDetailsViewController: UIViewController {
         self.resultCollectionView.reloadData()
         self.teamCollectionView.reloadData()
     }
+  
     func getCoreDate() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let mangedContext = appDelegate.persistentContainer.viewContext
@@ -80,7 +74,6 @@ class LeagueDetailsViewController: UIViewController {
             }
             else if item.image == UIImage(named: "heart (2)"){
              item.image = UIImage(named: "heart (1)")
-//                self.DeleteFavouriteLegue()
                 self.deleteRecords()
             }
         }
@@ -145,21 +138,80 @@ class LeagueDetailsViewController: UIViewController {
             if let error = error {
                 print(error)
             }else{
+                self.hud.show(in: self.view)
                 guard let datasports = sport else { return  }
                 if let events = (datasports.events){
                     self.eventDetails = events
                     }
+                self.hud.dismiss()
                 DispatchQueue.main.async {
                     self.eventCollectionView.reloadData()
                     self.resultCollectionView.reloadData()
                     self.teamCollectionView.reloadData()
+                    
                 }
             }
             
         }
     }
+    func getAllTeams(){
+        APIClient.instance.getData(url: self.teamDetailsUrl.rawValue, id : legueId ) { (sport: TeamModel?, error) in
+            if let error = error {
+                print(error)
+            }else{
+                self.hud.show(in: self.view)
+                guard let datasports = sport else { return  }
+                if let teams = (datasports.teams){
+                    self.teamDetails = teams
+                    }
+                self.hud.dismiss()
+                DispatchQueue.main.async {
+                    self.teamCollectionView.reloadData()
+                    
+                }
+            }
+            
+        }
+    }
+    func getTeamDetails(){
+        self.hud.show(in: self.view)
+        for  i in (0..<self.eventDetails.count){
+            self.dispatchGroup.enter()
+            APIClient.instance.getData(url: self.TeamDetailsIDUrl.rawValue ,id : eventDetails[i].idHomeTeam ?? "") { (sport: TeamIDModel?, error) in
+                if let error = error {
+                    print(error)
+                }else{
+                    guard let teamDetails = sport else { return  }
+                    self.homeTeamDetails .append(teamDetails.teams![0])
+                    self.eventCollectionView.reloadData()
+        }
+                self.dispatchGroup.leave()
+    }
+        }
+        
+        for  i in (0..<self.eventDetails.count){
+            self.dispatchGroup.enter()
+            APIClient.instance.getData(url: self.TeamDetailsIDUrl.rawValue ,id : eventDetails[i].idAwayTeam ?? "") { (sport: TeamIDModel?, error) in
+                if let error = error {
+                    print(error)
+                }else{
+                    guard let teamDetails = sport else { return  }
+                    self.awayTeamDetails .append(teamDetails.teams![0])
+                    self.eventCollectionView.reloadData()
+        }
+                self.dispatchGroup.leave()
+    }
+        }
+        self.dispatchGroup.notify(queue: .main) {
+           self.resultCollectionView.reloadData()
+            self.eventCollectionView.reloadData()
+            self.hud.show(in: self.view)
+        }
+
+    }
+    
 }
-extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+    extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch collectionView.tag {
@@ -199,22 +251,60 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
         
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCollectionViewCell", for: indexPath) as! EventCollectionViewCell
-            cell.eventLabel.text = eventDetails[indexPath.row].strEvent
-            cell.dateLabel.text = eventDetails[indexPath.row].dateEvent! + " AT " + eventDetails[indexPath.row].strTime!
+            if homeTeamDetails.count>indexPath.row{
+                if awayTeamDetails.count > indexPath.row{
+                    for  i in (0..<self.homeTeamDetails.count){
+                        if eventDetails[indexPath.row].idHomeTeam ?? "" == homeTeamDetails[i].idTeam{
+                            cell.homeImageView.imageUrl = homeTeamDetails[i].strTeamBadge ?? ""
+                            }
+                        
+                    }
+                    for  i in (0..<self.awayTeamDetails.count){
+                        if eventDetails[indexPath.row].idAwayTeam ?? "" == awayTeamDetails[i].idTeam{
+                            cell.awayImageView.imageUrl = awayTeamDetails[i].strTeamBadge ?? ""
+                            }
+                        
+                    }
+            
+            
+                }
+              
+                cell.homaLabel.text = eventDetails[indexPath.row].strHomeTeam
+                cell.awayLabel.text = eventDetails[indexPath.row].strAwayTeam
+                cell.dateLabel.text = eventDetails[indexPath.row].dateEvent! + " AT " + eventDetails[indexPath.row].strTime!
+                    cell.vsLabel.text = "VS"
+                    
+                }
             return cell
             
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ResultCollectionViewCell", for: indexPath) as! ResultCollectionViewCell
-            cell.homeTeamLabel.text = eventDetails[indexPath.row].strHomeTeam
-            cell.homeScoreLabel.text = eventDetails[indexPath.row].intHomeScore
-            cell.awayTeamLabel.text = eventDetails[indexPath.row].strAwayTeam
-            cell.awayScoreLabel.text = eventDetails[indexPath.row].intAwayScore
-            cell.dateLabel.text = eventDetails[indexPath.row].dateEvent! + " AT " + eventDetails[indexPath.row].strTime!
+               if homeTeamDetails.count>indexPath.row{
+                if awayTeamDetails.count > indexPath.row{
+                    for  i in (0..<self.homeTeamDetails.count){
+                        if eventDetails[indexPath.row].idHomeTeam ?? "" == homeTeamDetails[i].idTeam{
+                            cell.homeImageView.imageUrl = homeTeamDetails[i].strTeamBadge ?? ""
+                            }
+                        
+                    }
+                    for  i in (0..<self.awayTeamDetails.count){
+                        if eventDetails[indexPath.row].idAwayTeam ?? "" == awayTeamDetails[i].idTeam{
+                            cell.awayImageView.imageUrl = awayTeamDetails[i].strTeamBadge ?? ""
+                            }
+                        
+                    }
+                cell.homeLabel.text = eventDetails[indexPath.row].strHomeTeam
+                cell.awayLabel.text = eventDetails[indexPath.row].strAwayTeam
+                    cell.dateLabel.text = eventDetails[indexPath.row].dateEvent ?? "" + " AT " + eventDetails[indexPath.row].strTime!
+                cell.homeResultLabel.text = eventDetails[indexPath.row].intHomeScore
+                cell.awayResultLabel.text = eventDetails[indexPath.row].intAwayScore
+                cell.vsLabel.text = "VS"
+                }}
             return cell
             
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TeamCollectionViewCell", for: indexPath) as! TeamCollectionViewCell
-            cell.teamImageView.imageUrl = teamDetails[indexPath.row].strTeamBadge!
+            cell.teamImageView.imageUrl = teamDetails[indexPath.row].strTeamBadge ?? ""
             return cell
         default:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TeamCollectionViewCell", for: indexPath) as! TeamCollectionViewCell
@@ -230,8 +320,8 @@ extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionV
         if segue.identifier == "seque" {
             if let indexPath = self.teamCollectionView.indexPathsForSelectedItems?.first {
                 let controller = segue.destination as! TeamDetailsViewController
-                controller.teamId = teamDetails[indexPath.row].idTeam!
-                controller.teamName = teamDetails[indexPath.row].strTeam!
+                controller.teamId = teamDetails[indexPath.row].idTeam ?? ""
+                controller.teamName = teamDetails[indexPath.row].strTeam ?? ""
             }
         }
     }

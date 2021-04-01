@@ -7,14 +7,17 @@
 
 import UIKit
 import WebKit
+import JGProgressHUD
 class WebViewController: UIViewController {
-    var link : String?
+    var link : String = ""
+    let hud = JGProgressHUD()
     @IBOutlet weak var webView: WKWebView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        webView.load(URLRequest(url:URL(string : "https://" + link!)!))
-        // Do any additional setup after loading the view.
-    }
+        self.hud.show(in: self.view)
+        webView.load(URLRequest(url:URL(string : "https://" + link)!))
+        self.hud.dismiss()
+        }
  
 
 }

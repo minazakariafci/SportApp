@@ -9,11 +9,18 @@ import UIKit
 
 class EventCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var homeImageView: UIImageView!
+    @IBOutlet weak var awayImageView: UIImageView!
+    @IBOutlet weak var awayLabel: UILabel!
+    @IBOutlet weak var homaLabel: UILabel!
+    @IBOutlet weak var vsLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var eventLabel: UILabel!
-    @IBOutlet weak var calendarImageView: UIImageView!
+    
     override func awakeFromNib() {
+        
         super.awakeFromNib()
+        homeImageView.maskCircle()
+        awayImageView.maskCircle()
         // Initialization code
     }
 

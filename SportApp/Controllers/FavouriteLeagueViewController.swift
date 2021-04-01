@@ -101,7 +101,7 @@ extension FavouriteLeagueViewController :UITableViewDelegate,UITableViewDataSour
             
             self.present(alert, animated: true, completion: nil)
         }else{
-            newViewController.link = leguesCoreData[index].youtubeLink
+            newViewController.link = leguesCoreData[index].youtubeLink ?? ""
             self.navigationController?.pushViewController(newViewController, animated: true)
         }
     }

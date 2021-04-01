@@ -6,13 +6,14 @@
 //
 
 import UIKit
-
+import JGProgressHUD
 class LeagueViewController: UIViewController {
     var sportName : String?
     
     @IBOutlet weak var tableView: UITableView!
     let legueNameurl : URLS = .legueNameUrl
     let lequeDetailsUrl :URLS = .lequeDetailsUrl
+    let hud = JGProgressHUD()
     var image : String = ""
     var data = [LegueDetailsModel](){
         didSet{
@@ -20,24 +21,24 @@ class LeagueViewController: UIViewController {
         }
     }
     func getLegueDetails(){
+        self.hud.show(in: self.view)
         for  i in (0..<self.data.count){
             self.dispatchGroup.enter()
-            APIClient.instance.getData(url: self.lequeDetailsUrl.rawValue,id : self.data[i].idLeague!) { (sport: legueIDModel?, error) in
+            APIClient.instance.getData(url: self.lequeDetailsUrl.rawValue,id : self.data[i].idLeague ?? "") { (sport: legueIDModel?, error) in
                 print(sport)
                 if error != nil {
                     print(error!)
                 }else{
                     guard let LequeDetails = sport else { return  }
                     self.dataLegueDetails .append(LequeDetails.leagues![0])
-                    self.badgesImages?.append(self.dataLegueDetails[i].strBadge!)
                     print(self.dataLegueDetails.count)
-                    print(self.badgesImages?.count)
                 }
                 self.dispatchGroup.leave()
             }
         }
         self.dispatchGroup.notify(queue: .main) {
             self.sortData()
+            self.hud.dismiss()
         }
 
     }
@@ -53,7 +54,6 @@ class LeagueViewController: UIViewController {
     
     var dataLegueDetails = [LeaguesDetailsIDModel]()
     var YoutubeChannels : [String] = []
-    var badgesImages : [String]?
     var limit = 20
     
     let dispatchGroup = DispatchGroup()
@@ -64,8 +64,11 @@ class LeagueViewController: UIViewController {
         tableView.tableFooterView = UIView(frame: .zero)
         self.title = "Leagues"
         self.serviceCall()
-        // self.tableView.reloadData()
     }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        self.serviceCall()
+//    }
     
     func serviceCall(){
         APIClient.instance.getData(url: self.legueNameurl.rawValue) { (sport: LegueModel?, error) in
@@ -73,12 +76,14 @@ class LeagueViewController: UIViewController {
                 print(error)
             }else{
                 guard let datasports = sport else { return  }
+                self.hud.show(in: self.view)
                 self.data = (datasports.leagues?.filter({ (data) -> Bool in
                     data.strSport == self.sportName
                 }))!
                 
             }
             self.tableView.reloadData()
+            self.hud.dismiss()
             print(self.dataLegueDetails)
         }
     }
@@ -108,7 +113,7 @@ extension LeagueViewController :UITableViewDelegate,UITableViewDataSource{
         let newViewController =  self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
         let index = sender.tag
         if dataLegueDetails[index].strYoutube == ""{
-            let alert = UIAlertController(title: "Error!", message: "No Youtube channel for \(dataLegueDetails[index].strLeague ?? "")", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Warning!", message: "No Youtube channel for \(dataLegueDetails[index].strLeague ?? "")", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { (action) in
                 alert.dismiss(animated: true, completion: nil)
                 return
@@ -116,7 +121,7 @@ extension LeagueViewController :UITableViewDelegate,UITableViewDataSource{
            
             self.present(alert, animated: true, completion: nil)
         }else{
-        newViewController.link = dataLegueDetails[index].strYoutube
+        newViewController.link = dataLegueDetails[index].strYoutube ?? ""
         self.navigationController?.pushViewController(newViewController, animated: true)
         }
     }
@@ -135,7 +140,8 @@ extension LeagueViewController :UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let legue =  self.storyboard?.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as! LeagueDetailsViewController
-        legue.legueId = data[indexPath.row].idLeague!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LegueTableViewCell", for: indexPath) as! LegueTableViewCell
+        legue.legueId = data[indexPath.row].idLeague ?? ""
         self.performSegue(withIdentifier: "seque", sender: self)
         
         

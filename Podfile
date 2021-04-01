@@ -18,4 +18,5 @@ target 'SportApp' do
   end
   pod 'Alamofire', '~> 4.9.1'
   pod 'Kingfisher'
+  pod 'JGProgressHUD'
 end

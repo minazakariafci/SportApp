@@ -251,7 +251,6 @@
 				045BCB14260A07B400047683 /* Cells */,
 				0465DF5A260B5BB700BC58BE /* Controllers */,
 				04CD4A112608CA9300F8DA47 /* Info.plist */,
-				04CD4A092608CA9000F8DA47 /* SportApp.xcdatamodeld */,
 			);
 			path = SportApp;
 			sourceTree = "<group>";
@@ -300,6 +299,7 @@
 				04C58C4C2610E54400108DC3 /* TeamDetailsModel.swift */,
 				04A140542611E50600768374 /* TeamIDModel.swift */,
 				04A140592611E59600768374 /* TeamDetailsIDModel.swift */,
+				04CD4A092608CA9000F8DA47 /* SportApp.xcdatamodeld */,
 			);
 			path = Models;
 			sourceTree = "<group>";
