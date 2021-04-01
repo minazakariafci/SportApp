@@ -29,3 +29,11 @@ extension UIImageView {
         }
     }
 }
+extension UILabel{
+    public func maskCircle() {
+      self.contentMode = UIView.ContentMode.scaleAspectFill
+      self.layer.cornerRadius = self.frame.height / 2
+      self.layer.masksToBounds = false
+      self.clipsToBounds = true
+    }
+}

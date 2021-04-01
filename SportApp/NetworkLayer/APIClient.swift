@@ -17,6 +17,7 @@ class APIClient {
     }
     func getData <T:Decodable>(url: String ,id: String = "" , completion: @escaping (T?, Error?)->Void){
         let paramter = ["id": Int(id)]
+        
         Alamofire.request(url ,parameters: paramter ).responseJSON { (response) in
             guard let data = response.data else {return}
             switch response.result{
@@ -24,7 +25,7 @@ class APIClient {
                 do{
                     let sports = try JSONDecoder().decode(T.self, from: data)
                     completion(sports , nil)
-                    
+                    print(url+id)
                 }catch let jsonError{
                 print(jsonError)
                 }

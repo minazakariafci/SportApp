@@ -12,21 +12,7 @@ class FavouriteLeagueViewController: UIViewController {
     let lequeDetailsUrl :URLS = .lequeDetailsUrl
     var data = [LeaguesDetailsIDModel]()
     @IBOutlet weak var tableView: UITableView!
-    var leguesCoreData = [LegueCoreData](){
-        didSet{
-            //            self.serviceCall()
-        }
-    }
-    func sortData() {
-        leguesCoreData.sort(by: {(id1, id2) -> Bool in
-            if let idleague1 = id1.iD, let idleague2 = id2.iD {
-                return idleague1 < idleague2
-            }
-            return false
-        })
-        self.tableView.reloadData()
-    }
-    
+    var leguesCoreData = [LegueCoreData]()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(UINib(nibName: "LegueTableViewCell", bundle: .main), forCellReuseIdentifier: "LegueTableViewCell")
@@ -68,33 +54,14 @@ class FavouriteLeagueViewController: UIViewController {
         sleep(2)
         exit(2)
     }
-    func serviceCall(){
-        data.removeAll()
-        for  i in (0..<self.leguesCoreData.count){
-            self.dispatchGroup.enter()
-            guard APIClient.instance.checkInternet() else {
-                self.askForQuit { (canQuit) in
-                    if canQuit {
-                        self.quit()
-                    }
-                }
-                return
+    func sortData() {
+        leguesCoreData.sort(by: {(id1, id2) -> Bool in
+            if let idleague1 = id1.iD, let idleague2 = id2.iD {
+                return idleague1 < idleague2
             }
-            APIClient.instance.getData(url: self.lequeDetailsUrl.rawValue,id : self.leguesCoreData[i].iD! ) { (sport: legueIDModel?, error) in
-                print(sport)
-                if error != nil {
-                    print(error!)
-                }else{
-                    guard let LequeDetails = sport else { return  }
-                    self.data .append(LequeDetails.leagues![0])
-                }
-                self.dispatchGroup.leave()
-            }
-        }
-        self.dispatchGroup.notify(queue: .main) {
-            self.sortData()
-            self.tableView.reloadData()
-        }
+            return false
+        })
+        self.tableView.reloadData()
     }
 }
 
@@ -134,7 +101,7 @@ extension FavouriteLeagueViewController :UITableViewDelegate,UITableViewDataSour
             
             self.present(alert, animated: true, completion: nil)
         }else{
-            newViewController.link = leguesCoreData[index].youtubeLink
+            newViewController.link = leguesCoreData[index].youtubeLink ?? ""
             self.navigationController?.pushViewController(newViewController, animated: true)
         }
     }
