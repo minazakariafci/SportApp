@@ -153,6 +153,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		044A0FF92616476E0059A04C /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				42FB3AD926108572000C29BD /* Constants.swift */,
+				0465DF45260B50EE00BC58BE /* extensions.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		045BCB14260A07B400047683 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,14 +177,6 @@
 				0449C116260ABF9A009843D5 /* TeamCollectionViewCell.xib */,
 			);
 			path = Cells;
-			sourceTree = "<group>";
-		};
-		0465DF44260B50CE00BC58BE /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				0465DF45260B50EE00BC58BE /* extensions.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		0465DF5A260B5BB700BC58BE /* Controllers */ = {
@@ -242,12 +243,12 @@
 		04CD49FF2608CA9000F8DA47 /* SportApp */ = {
 			isa = PBXGroup;
 			children = (
+				044A0FF92616476E0059A04C /* Utilities */,
 				04C0CEBD260BAA510062310B /* Resources */,
 				42915D7F260E5C7400FC8E71 /* NetworkLayer */,
 				42915D79260E5C0000FC8E71 /* Models */,
 				04C0CEBC260BAA3A0062310B /* Views */,
 				04C0CEBB260BAA180062310B /* App Delegate */,
-				0465DF44260B50CE00BC58BE /* Extensions */,
 				045BCB14260A07B400047683 /* Cells */,
 				0465DF5A260B5BB700BC58BE /* Controllers */,
 				04CD4A112608CA9300F8DA47 /* Info.plist */,
@@ -294,7 +295,6 @@
 				0419F1B4260F7A36003E0ED4 /* LeaguesDetailsIDModel.swift */,
 				0419F1C1260FC621003E0ED4 /* EventModel.swift */,
 				0419F1C6260FC689003E0ED4 /* EventDetailsModel.swift */,
-				42FB3AD926108572000C29BD /* Constants.swift */,
 				04C58C472610E53200108DC3 /* TeamModel.swift */,
 				04C58C4C2610E54400108DC3 /* TeamDetailsModel.swift */,
 				04A140542611E50600768374 /* TeamIDModel.swift */,

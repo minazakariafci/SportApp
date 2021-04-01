@@ -17,7 +17,7 @@ class SportsViewController: UIViewController {
         super.viewDidLoad()
         self.title = "Sports"
         self.collectionView.register(UINib(nibName: "SportCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "SportCollectionViewCell")
-//        self.serviceCall()
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -26,10 +26,10 @@ class SportsViewController: UIViewController {
     func serviceCall(){
         guard APIClient.instance.checkInternet() else {
             self.askForQuit { (canQuit) in
-                 if canQuit {
-                     self.quit()
+                if canQuit {
+                    self.quit()
                     
-                 }
+                }
             }
             return
         }
@@ -42,29 +42,30 @@ class SportsViewController: UIViewController {
                 self.sportsArr = (datasports.sports)!
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
+                    self.hud.dismiss()
                 }
             }
-            self.hud.dismiss()
+            
         }
     }
-        func askForQuit(_ completion:@escaping (_ canQuit: Bool) -> Void) {
-            let alert = UIAlertController(title: "Warning!", message: "Check Your Connection", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { (action) in
-                alert.dismiss(animated: true, completion: nil)
-                completion(true)
-            }))
-            alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.cancel, handler: { (action) in
-                   alert.dismiss(animated: true, completion: nil)
-                   completion(false)
-               }))
-            self.present(alert, animated: true, completion: nil)
-        }
+    func askForQuit(_ completion:@escaping (_ canQuit: Bool) -> Void) {
+        let alert = UIAlertController(title: "Warning!", message: "Check Your Connection", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+            completion(true)
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: UIAlertAction.Style.cancel, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+            completion(false)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
     
-        func quit() {
-            UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
-            sleep(2)
-            exit(2)
-        }
+    func quit() {
+        UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+        sleep(2)
+        exit(2)
+    }
     
     
 }

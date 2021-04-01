@@ -17,7 +17,7 @@ class WebViewController: UIViewController {
         self.hud.show(in: self.view)
         webView.load(URLRequest(url:URL(string : "https://" + link)!))
         self.hud.dismiss()
-        }
- 
-
+    }
+    
+    
 }
