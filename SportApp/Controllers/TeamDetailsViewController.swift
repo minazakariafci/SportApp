@@ -24,7 +24,7 @@ class TeamDetailsViewController: UIViewController {
         self.title = teamName
     }
     
-
+    
     func serviceCall(){
         APIClient.instance.getData(url: self.TeamDetailsIDUrl.rawValue ,id : teamId) { (sport: TeamIDModel?, error) in
             if let error = error {
@@ -34,18 +34,19 @@ class TeamDetailsViewController: UIViewController {
                 guard let datasports = sport else { return  }
                 if let teamDetails = (datasports.teams){
                     self.data = teamDetails
-                    }
-                self.hud.dismiss()
+                }
+                
                 DispatchQueue.main.async {
                     self.teamImageView.imageUrl = self.data[0].strTeamBadge!
                     self.descriptionLabel.text = self.data[0].strDescriptionEN
                     self.teamLabel.text = self.data[0].strTeam
-                    }
+                    self.hud.dismiss()
+                }
             }
             
         }
     }
-
+    
     @IBAction func facebookButton(_ sender: UIButton) {
         let newViewController =  self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
         if data[0].strFacebook == ""{
@@ -54,12 +55,12 @@ class TeamDetailsViewController: UIViewController {
                 alert.dismiss(animated: true, completion: nil)
                 return
             }))
-           self.present(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }else{
-        newViewController.link = data[0].strFacebook ?? ""
-        self.navigationController?.pushViewController(newViewController, animated: true)
+            newViewController.link = data[0].strFacebook ?? ""
+            self.navigationController?.pushViewController(newViewController, animated: true)
         }
-        }
+    }
     @IBAction func youtubeButton(_ sender: UIButton) {
         let newViewController =  self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
         if data[0].strYoutube == ""{
@@ -68,12 +69,12 @@ class TeamDetailsViewController: UIViewController {
                 alert.dismiss(animated: true, completion: nil)
                 return
             }))
-           self.present(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }else{
-        newViewController.link = data[0].strYoutube ?? ""
-        self.navigationController?.pushViewController(newViewController, animated: true)
+            newViewController.link = data[0].strYoutube ?? ""
+            self.navigationController?.pushViewController(newViewController, animated: true)
         }
-        }
+    }
     @IBAction func instgramButton(_ sender: UIButton) {
         let newViewController =  self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
         if data[0].strInstagram == ""{
@@ -82,12 +83,12 @@ class TeamDetailsViewController: UIViewController {
                 alert.dismiss(animated: true, completion: nil)
                 return
             }))
-           self.present(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }else{
-        newViewController.link = data[0].strInstagram ?? ""
-        self.navigationController?.pushViewController(newViewController, animated: true)
+            newViewController.link = data[0].strInstagram ?? ""
+            self.navigationController?.pushViewController(newViewController, animated: true)
         }
-        }
+    }
     @IBAction func twiteerButton(_ sender: UIButton) {
         let newViewController =  self.storyboard?.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
         if data[0].strTwitter == ""{
@@ -96,10 +97,10 @@ class TeamDetailsViewController: UIViewController {
                 alert.dismiss(animated: true, completion: nil)
                 return
             }))
-           self.present(alert, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }else{
-         newViewController.link = data[0].strTwitter ?? ""
-        self.navigationController?.pushViewController(newViewController, animated: true)
+            newViewController.link = data[0].strTwitter ?? ""
+            self.navigationController?.pushViewController(newViewController, animated: true)
         }
-        }
+    }
 }

@@ -40,7 +40,7 @@ class LeagueViewController: UIViewController {
             self.sortData()
             self.hud.dismiss()
         }
-
+        
     }
     func sortData() {
         dataLegueDetails.sort(by: {(id1, id2) -> Bool in
@@ -65,10 +65,7 @@ class LeagueViewController: UIViewController {
         self.title = "Leagues"
         self.serviceCall()
     }
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        self.serviceCall()
-//    }
+    
     
     func serviceCall(){
         APIClient.instance.getData(url: self.legueNameurl.rawValue) { (sport: LegueModel?, error) in
@@ -101,11 +98,11 @@ extension LeagueViewController :UITableViewDelegate,UITableViewDataSource{
         if dataLegueDetails.count>indexPath.row{
             cell.nameLabel.text = dataLegueDetails[indexPath.row].strLeague
             cell.legueImageView.imageUrl = dataLegueDetails[indexPath.row].strBadge ?? ""
-        
+            
             cell.youtubeButton.addTarget(self, action: #selector(oneTapped(_:)), for: .touchUpInside)
-                cell.youtubeButton.tag = indexPath.row
-                
-            }
+            cell.youtubeButton.tag = indexPath.row
+            
+        }
         
         return cell
     }
@@ -118,11 +115,11 @@ extension LeagueViewController :UITableViewDelegate,UITableViewDataSource{
                 alert.dismiss(animated: true, completion: nil)
                 return
             }))
-           
+            
             self.present(alert, animated: true, completion: nil)
         }else{
-        newViewController.link = dataLegueDetails[index].strYoutube ?? ""
-        self.navigationController?.pushViewController(newViewController, animated: true)
+            newViewController.link = dataLegueDetails[index].strYoutube ?? ""
+            self.navigationController?.pushViewController(newViewController, animated: true)
         }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

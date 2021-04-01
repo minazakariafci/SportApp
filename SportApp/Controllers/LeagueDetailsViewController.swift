@@ -37,7 +37,7 @@ class LeagueDetailsViewController: UIViewController {
         return favouriteButton
         
     }
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.eventCollectionView.register(UINib(nibName: "EventCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: "EventCollectionViewCell")
@@ -53,11 +53,11 @@ class LeagueDetailsViewController: UIViewController {
         self.resultCollectionView.reloadData()
         self.teamCollectionView.reloadData()
     }
-  
+    
     func getCoreDate() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let mangedContext = appDelegate.persistentContainer.viewContext
-         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "LegueCoreData")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "LegueCoreData")
         do {
             try  leguesCoreData = (mangedContext.fetch(fetchRequest) as? [LegueCoreData])!
             
@@ -73,26 +73,26 @@ class LeagueDetailsViewController: UIViewController {
                 self.SaveFavouriteLegue()
             }
             else if item.image == UIImage(named: "heart (2)"){
-             item.image = UIImage(named: "heart (1)")
+                item.image = UIImage(named: "heart (1)")
                 self.deleteRecords()
             }
         }
     }
     func configure(){
         if let item = self.navigationItem.rightBarButtonItem{
-        if leguesCoreData.count > 0{
-        for  i in (0..<self.leguesCoreData.count){
-            if  legueId == leguesCoreData[i].iD{
-                item.image = UIImage(named: "heart (2)")
+            if leguesCoreData.count > 0{
+                for  i in (0..<self.leguesCoreData.count){
+                    if  legueId == leguesCoreData[i].iD{
+                        item.image = UIImage(named: "heart (2)")
+                    }
+                }
+                
+            }else{
+                item.image = UIImage(named: "heart (1)")
             }
         }
-            
-        }else{
-            item.image = UIImage(named: "heart (1)")
-        }
-        }
     }
-
+    
     func SaveFavouriteLegue(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let mangedContext = appDelegate.persistentContainer.viewContext
@@ -112,13 +112,13 @@ class LeagueDetailsViewController: UIViewController {
         }
         appDelegate.saveContext()
     }
-
+    
     func deleteRecords() -> Void {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let mangedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LegueCoreData")
         let Predicate = NSPredicate(format: "iD==\(String(describing: legueId))")
-         let result = try? mangedContext.fetch(fetchRequest)
+        let result = try? mangedContext.fetch(fetchRequest)
         _ = result as! [LegueCoreData]
         fetchRequest.predicate = Predicate
         let objects = try! mangedContext.fetch(fetchRequest)
@@ -132,7 +132,7 @@ class LeagueDetailsViewController: UIViewController {
         }
         appDelegate.saveContext()
     }
-
+    
     func serviceCall(){
         APIClient.instance.getData(url: self.url.rawValue ,id : legueId) { (sport: EventModel?, error) in
             if let error = error {
@@ -142,12 +142,13 @@ class LeagueDetailsViewController: UIViewController {
                 guard let datasports = sport else { return  }
                 if let events = (datasports.events){
                     self.eventDetails = events
-                    }
-                self.hud.dismiss()
+                }
+                
                 DispatchQueue.main.async {
                     self.eventCollectionView.reloadData()
                     self.resultCollectionView.reloadData()
                     self.teamCollectionView.reloadData()
+                    self.hud.dismiss()
                     
                 }
             }
@@ -163,10 +164,11 @@ class LeagueDetailsViewController: UIViewController {
                 guard let datasports = sport else { return  }
                 if let teams = (datasports.teams){
                     self.teamDetails = teams
-                    }
-                self.hud.dismiss()
+                }
+                
                 DispatchQueue.main.async {
                     self.teamCollectionView.reloadData()
+                    self.hud.dismiss()
                     
                 }
             }
@@ -184,9 +186,9 @@ class LeagueDetailsViewController: UIViewController {
                     guard let teamDetails = sport else { return  }
                     self.homeTeamDetails .append(teamDetails.teams![0])
                     self.eventCollectionView.reloadData()
-        }
+                }
                 self.dispatchGroup.leave()
-    }
+            }
         }
         
         for  i in (0..<self.eventDetails.count){
@@ -198,20 +200,20 @@ class LeagueDetailsViewController: UIViewController {
                     guard let teamDetails = sport else { return  }
                     self.awayTeamDetails .append(teamDetails.teams![0])
                     self.eventCollectionView.reloadData()
-        }
+                }
                 self.dispatchGroup.leave()
-    }
+            }
         }
         self.dispatchGroup.notify(queue: .main) {
-           self.resultCollectionView.reloadData()
+            self.resultCollectionView.reloadData()
             self.eventCollectionView.reloadData()
-            self.hud.show(in: self.view)
+            self.hud.dismiss()
         }
-
+        
     }
     
 }
-    extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+extension LeagueDetailsViewController : UICollectionViewDelegate , UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch collectionView.tag {
@@ -256,49 +258,49 @@ class LeagueDetailsViewController: UIViewController {
                     for  i in (0..<self.homeTeamDetails.count){
                         if eventDetails[indexPath.row].idHomeTeam ?? "" == homeTeamDetails[i].idTeam{
                             cell.homeImageView.imageUrl = homeTeamDetails[i].strTeamBadge ?? ""
-                            }
+                        }
                         
                     }
                     for  i in (0..<self.awayTeamDetails.count){
                         if eventDetails[indexPath.row].idAwayTeam ?? "" == awayTeamDetails[i].idTeam{
                             cell.awayImageView.imageUrl = awayTeamDetails[i].strTeamBadge ?? ""
-                            }
+                        }
                         
                     }
-            
-            
+                    
+                    
                 }
-              
+                
                 cell.homaLabel.text = eventDetails[indexPath.row].strHomeTeam
                 cell.awayLabel.text = eventDetails[indexPath.row].strAwayTeam
                 cell.dateLabel.text = eventDetails[indexPath.row].dateEvent! + " AT " + eventDetails[indexPath.row].strTime!
-                    cell.vsLabel.text = "VS"
-                    
-                }
+                cell.vsLabel.text = "VS"
+                
+            }
             return cell
             
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ResultCollectionViewCell", for: indexPath) as! ResultCollectionViewCell
-               if homeTeamDetails.count>indexPath.row{
+            if homeTeamDetails.count>indexPath.row{
                 if awayTeamDetails.count > indexPath.row{
                     for  i in (0..<self.homeTeamDetails.count){
                         if eventDetails[indexPath.row].idHomeTeam ?? "" == homeTeamDetails[i].idTeam{
                             cell.homeImageView.imageUrl = homeTeamDetails[i].strTeamBadge ?? ""
-                            }
+                        }
                         
                     }
                     for  i in (0..<self.awayTeamDetails.count){
                         if eventDetails[indexPath.row].idAwayTeam ?? "" == awayTeamDetails[i].idTeam{
                             cell.awayImageView.imageUrl = awayTeamDetails[i].strTeamBadge ?? ""
-                            }
+                        }
                         
                     }
-                cell.homeLabel.text = eventDetails[indexPath.row].strHomeTeam
-                cell.awayLabel.text = eventDetails[indexPath.row].strAwayTeam
-                    cell.dateLabel.text = eventDetails[indexPath.row].dateEvent ?? "" + " AT " + eventDetails[indexPath.row].strTime!
-                cell.homeResultLabel.text = eventDetails[indexPath.row].intHomeScore
-                cell.awayResultLabel.text = eventDetails[indexPath.row].intAwayScore
-                cell.vsLabel.text = "VS"
+                    cell.homeLabel.text = eventDetails[indexPath.row].strHomeTeam
+                    cell.awayLabel.text = eventDetails[indexPath.row].strAwayTeam
+                    cell.dateLabel.text = eventDetails[indexPath.row].dateEvent! + " AT " + eventDetails[indexPath.row].strTime!
+                    cell.homeResultLabel.text = eventDetails[indexPath.row].intHomeScore
+                    cell.awayResultLabel.text = eventDetails[indexPath.row].intAwayScore
+                    cell.vsLabel.text = "VS"
                 }}
             return cell
             
@@ -311,7 +313,7 @@ class LeagueDetailsViewController: UIViewController {
             DispatchQueue.main.async {
                 cell.teamImageView.maskCircle()
             }
-          
+            
             return cell
             
         }
@@ -328,8 +330,8 @@ class LeagueDetailsViewController: UIViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView.tag {
         case 2:
-        let legue =  self.storyboard?.instantiateViewController(withIdentifier: "TeamDetailsViewController") as! TeamDetailsViewController
-        self.performSegue(withIdentifier: "seque", sender: self)
+            let legue =  self.storyboard?.instantiateViewController(withIdentifier: "TeamDetailsViewController") as! TeamDetailsViewController
+            self.performSegue(withIdentifier: "seque", sender: self)
         default:
             return
         }
